@@ -4,13 +4,14 @@ var port: number = process.env.PORT || 3000;
 var app = express();
 
 app.use('/libs', express.static(path.resolve(__dirname, '../node_modules')));
+app.use('/app', express.static(path.resolve(__dirname, '../dist/app')));
 app.use(express.static(path.resolve(__dirname, '../public')));
 
 var renderIndex = (req: express.Request, res: express.Response) => {
     res.sendFile(path.resolve(__dirname, '../public/index.html'));
 }
 
-app.get('/*', renderIndex);
+app.get('/', renderIndex);
 
 var server = app.listen(port, '0.0.0.0', 511 , function() {
     var host = server.address().address;
