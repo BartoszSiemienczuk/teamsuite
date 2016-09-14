@@ -1,11 +1,8 @@
-"use strict";
-var express = require('express');
-var path = require('path');
 var port = process.env.PORT || 3000;
 var app = express();
 app.use('/libs', express.static(path.resolve(__dirname, '../node_modules')));
 app.use(express.static(path.resolve(__dirname, '../public')));
-var renderIndex = function (req, res) {
+var renderIndex = (req, res) => {
     res.sendFile(path.resolve(__dirname, '../public/index.html'));
 };
 app.get('/*', renderIndex);

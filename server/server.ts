@@ -12,7 +12,7 @@ var renderIndex = (req: express.Request, res: express.Response) => {
 
 app.get('/*', renderIndex);
 
-var server = app.listen(3000, function() {
+var server = app.listen(port, '0.0.0.0', 511 , function() {
     var host = server.address().address;
     var port = server.address().port;
     console.log('App listening at http://%s:%s', host, port);
