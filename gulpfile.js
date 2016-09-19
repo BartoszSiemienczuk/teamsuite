@@ -4,7 +4,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var ts = require('gulp-typescript');
 var del = require('del');
 var concat = require('gulp-concat')
-var runSequence = require('run-sequence');
+var runSequence = require('run-sequence').use(gulp);
 
 gulp.task('clean', function(){
   return del('dist');
