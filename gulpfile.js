@@ -16,9 +16,9 @@ gulp.task('build:server', function(){
     .pipe(sourcemaps.init())
     .pipe(ts(tsProject))
     .js
-    .pipe(concat('server.js'))
+    //.pipe(concat('server.js'))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest(path.resolve('./dist')));
+    .pipe(gulp.dest(path.resolve('./dist/server')));
 });
 
 gulp.task('build:app', function(){
