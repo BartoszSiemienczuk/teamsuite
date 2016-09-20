@@ -1,24 +1,27 @@
-
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
+import * as db from 'mongoose';
+import * as User from '../model/user';
 
 let router = express.Router();
 
 router = express.Router(); 
+db.connect('mongodb://localhost/teamsuite');
     
-router.use(bodyParser());
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({extended:true}));
 
 router.get('/', (req : express.Request, res : express.Response) => {
-  let users = [
-    {login: 'baxet', password: 'qwerty', role: 'ADMIN'},
-    {login: 'test', password: 'test', role: 'USER'}
-  ];
-  console.log("All users requested.");
-  res.send("OK");
+  User.find((err, Users) => {
+    if(err){
+      res.json({error: err, info: "Error loading users"});
+    }
+    res.json(Users);
+  });
 });
 
 router.post('/', (req : express.Request, res : express.Response) => {
-  console.log("User : "+req.body.login+" posted.");
+  console.log("User : "+req.body.login +"\n posted.");
   res.send("OK");
 });
 
