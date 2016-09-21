@@ -23,7 +23,9 @@
 // });
 
 import * as express from 'express';
+import * as db from 'mongoose';
 import { userRoutes } from './routes/users';
+import { authRoutes } from './routes/auth';
 import path = require('path');
 
 export class Server {
@@ -31,11 +33,15 @@ export class Server {
   port_ : number = 3000;
   host_ : string = '0.0.0.0';
 
+  db_url_ : string ='mongodb://localhost/teamsuite';
+
   constructor(){
     this.app_ = express();
   }
 
   public startServer(){
+    db.connect(this.db_url_);
+    
     this.startStatic();
     this.startRoutes();
     
@@ -51,7 +57,8 @@ export class Server {
       res.sendFile(path.resolve(__dirname, '../../public/index.html'));
     });
     
-    this.app_.use('/users', userRoutes);
+    this.app_.use('/api/v1/users', userRoutes);
+    this.app_.use('/auth', authRoutes);
   }
 
   private startStatic(){
