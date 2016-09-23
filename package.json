@@ -38,6 +38,8 @@
     "es6-promise": "^3.2.1",
     "es6-shim": "^0.35.1",
     "express": "^4.14.0",
+    "express-jwt": "^5.0.0",
+    "jsonwebtoken": "^7.1.9",
     "mongodb": "^2.2.10",
     "mongojs": "^2.4.0",
     "mongoose": "^4.6.0",
