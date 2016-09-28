@@ -1,14 +1,19 @@
-import { NgModule }      from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent }  from '../components/app.component';
-import { HomeComponent } from '../components/home.component';
+import { NgModule }       from '@angular/core';
+import { HttpModule }     from '@angular/http';
+import { BrowserModule }  from '@angular/platform-browser';
+import { AppComponent }   from '../components/app.component';
+import { HomeComponent }  from '../components/home.component';
 import { LoginComponent } from '../components/login.component';
+import { UserService }    from '../services/user.service';
+import { LocalStorage }   from '../services/localStorage.service'
 import { routing, appRoutingProviders } from '../routing/app.routing';
-
+import 'rxjs/Rx';
+ 
 
 @NgModule({
   imports:      [ 
     BrowserModule,
+    HttpModule,
     routing
   ],
   declarations: [ 
@@ -17,6 +22,8 @@ import { routing, appRoutingProviders } from '../routing/app.routing';
     LoginComponent
   ],
   providers: [
+    UserService,
+    LocalStorage,
     appRoutingProviders
   ],
   bootstrap:    [ 

@@ -11,7 +11,7 @@ router = express.Router();
     
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended:true}));
-router.use(expressJwt({secret : secret}).unless({path : ['/auth/login']}));
+router.use(expressJwt({secret : secret, credentialsRequired: false}).unless({path : ['/auth/login']}));
 
 router.post('/login', (req : express.Request, res : express.Response) => {
   console.log("Login attempt : "+req.body.login +"\n posted.");
@@ -19,16 +19,15 @@ router.post('/login', (req : express.Request, res : express.Response) => {
     if(!user){
       res.status(401).json({error:"bad_login"});
     } else {
-      user.save(); //rehash password
       user.comparePassword(req.body.password, (err, matches) => {
         if(err){
           console.log(err);
         }
         if(!matches){ //bad credentials
-          res.status(401).json({error:"bad_password"});
+          res.status(401).json({error:"bad_password", success: false});
         } else { //credentials match, lets login
           let token_ = jwt.sign({user:user}, secret);
-          res.status(200).json({error:null,token:token_});
+          res.status(200).json({error:null, success:true, token:token_});
         }
       });
     }

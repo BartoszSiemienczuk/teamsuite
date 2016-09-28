@@ -1,4 +1,4 @@
-<div class="ui middle aligned center aligned grid container">
+<div *ngIf="loggedIn==false" class="ui middle aligned center aligned grid container">
   <div class="eight wide column">
     <h2 class="ui yellow header">
       <div class="content">
@@ -10,18 +10,18 @@
         <div class="field">
           <div class="ui left icon input">
             <i class="user icon"></i>
-            <input name="email" placeholder="E-mail address" type="text">
+            <input #login (keyup)="0" name="login" placeholder="Username" type="text">
           </div>
         </div>
         <div class="field">
           <div class="ui left icon input">
             <i class="lock icon"></i>
-            <input name="password" placeholder="Password" type="password">
+            <input #password (keyup)="0" name="password" placeholder="Password" type="password">
           </div>
         </div>
-        <div class="ui fluid large yellow submit button">Login</div>
+        <button type="button" (click)="submitLogin(login.value, password.value)" class="ui fluid large yellow submit button">Login</button>
       </div>
-
+      {{login.value}} {{password.value}}
       <div class="ui error message"></div>
 
     </form>
@@ -31,3 +31,15 @@
     </div>
   </div>
 </div>
+
+<div *ngIf="loggedIn" class="ui middle aligned center aligned grid container">
+  <div class="eight wide column">
+    <h2 class="ui yellow header">
+      <div class="content">
+        Jesteś zalogowany. <br/> Token : {{token}}
+      </div>
+    </h2>
+  </div>
+</div>
+
+

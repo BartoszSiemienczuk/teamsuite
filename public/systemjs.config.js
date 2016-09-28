@@ -4,7 +4,8 @@
     'app':                        'app', // 'dist',
     '@angular':                   'libs/@angular',
     'angular2-in-memory-web-api': 'libs/angular2-in-memory-web-api',
-    'rxjs':                       'libs/rxjs'
+    'rxjs':                       'libs/rxjs',
+    'angular2-local-storage':               'libs/angular2-local-storage'
   };
   
   var packages = {
