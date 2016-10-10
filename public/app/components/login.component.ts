@@ -24,11 +24,20 @@ export class LoginComponent {
     });
   }
   
+  submitLogout(){
+    console.log("Wylogowuje");
+    this.userService.sendLogout();
+  }
+  
   get loggedIn(){
     return this.userService.loggedIn;
   }
   
   get token(){
     return this.userService.token;
+  }
+  
+  get user(){
+    return this.userService.userData;
   }
 }
