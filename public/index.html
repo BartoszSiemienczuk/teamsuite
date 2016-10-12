@@ -1,11 +1,29 @@
+<!DOCTYPE html>
 <html>
-
-  <head>
-    <title>Bax TeamSuite</title>
-    <base href="/"/>
+<head>
+    <base href="/">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="libs/semantic-ui-css/semantic.min.css" type="text/css"/> 
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Bax TeamSuite</title>
+	
+    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap and template Core Css -->
+    <link href="/libs/adminbsb-materialdesign/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/libs/adminbsb-materialdesign/plugins/node-waves/waves.css" rel="stylesheet" />
+    <link href="/libs/adminbsb-materialdesign/plugins/animate-css/animate.css" rel="stylesheet" />
+    <link href="/libs/adminbsb-materialdesign/plugins/material-design-preloader/md-preloader.css" rel="stylesheet" />
+    <link href="/libs/adminbsb-materialdesign/css/style.css" rel="stylesheet">
+    <link href="/libs/adminbsb-materialdesign/css/themes/all-themes.css" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link href="/assets/style/main.css" rel="stylesheet">
+	
+	<!-- Angular2 init -->
     <script src="libs/core-js/client/shim.min.js"></script>
     <script src="libs/zone.js/dist/zone.js"></script>
     <script src="libs/reflect-metadata/Reflect.js"></script>
@@ -14,22 +32,32 @@
     <script>
       System.import('app').catch(function(err){ console.error(err); });
     </script>
-  </head>
-  <body>
-    <!-- Main app entry point -->
-    <teamsuite-app>
-      <div class="ui page dimmer active">
-        <div class="content">
-          <div class="center">
-            <div class="ui large text loader">Loading TeamSuite App...</div>
-          </div>
-        </div>
-      </div>
-    </teamsuite-app>
-    
-    <!-- SCRIPTS -->
-    <script type="text/javascript" src="libs/semantic-ui-css/node_modules/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="libs/semantic-ui-css/semantic.min.js"></script>
-  </body>
+
+</head>
+
+<body class="theme-blue">
+	<teamsuite-app>
+		<!-- Page Loader -->
+		<div class="page-loader-wrapper">
+			<div class="loader">
+				<div class="md-preloader pl-size-md">
+					<svg viewbox="0 0 75 75">
+						<circle cx="37.5" cy="37.5" r="33.5" class="pl-red" stroke-width="4" />
+					</svg>
+				</div>
+				<p>Loading TeamSuite App...</p>
+			</div>
+		</div>
+		<!-- #END# Page Loader -->
+	</teamsuite-app>
+
+
+    <script src="/libs/adminbsb-materialdesign/plugins/jquery/jquery.min.js"></script>
+    <script src="/libs/adminbsb-materialdesign/plugins/bootstrap/js/bootstrap.js"></script>
+    <script src="/libs/adminbsb-materialdesign/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+    <script src="/libs/adminbsb-materialdesign/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+    <script src="/libs/adminbsb-materialdesign/plugins/node-waves/waves.js"></script>
+    <script src="/assets/scripts/template.js"></script>
+</body>
 
 </html>

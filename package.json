@@ -29,6 +29,7 @@
     "@angular/platform-browser-dynamic": "^2.0.0",
     "@angular/router": "^3.0.0",
     "@angular/upgrade": "^2.0.0",
+    "adminbsb-materialdesign": "^1.0.3",
     "angular-2-local-storage": "0.0.18",
     "angular2-in-memory-web-api": "0.0.20",
     "bcrypt-nodejs": "0.0.3",
