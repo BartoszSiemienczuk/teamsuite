@@ -13,7 +13,7 @@ import { HttpClient }    from '../services/httpClient.service';
 import { LocalStorage }   from '../services/localStorage.service';
 import { NotificationsService } from '../services/notifications.service';
 import { routing, appRoutingProviders } from '../routing/app.routing';
-import 'rxjs/Rx';
+import 'rxjs/add/operator/map';
  
 
 @NgModule({
