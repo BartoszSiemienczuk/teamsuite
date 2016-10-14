@@ -31,9 +31,14 @@ gulp.task('build:app', function(){
 		.pipe(gulp.dest(path.resolve('./dist')));
 });
 
+gulp.task('watch', function() {
+    gulp.watch(['./public/**/*.ts'], ['build:app']);
+    gulp.watch(['./server/**/*.ts'], ['build:server']);
+});
+
 
 gulp.task('build', function(callback){
     runSequence('clean', 'build:server', 'build:app', callback);
 });
 
-gulp.task('default', ['build']);
+gulp.task('default', ['watch']);

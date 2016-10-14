@@ -3,14 +3,18 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { HttpClient } from './httpClient.service';
 import { LocalStorage } from './localStorage.service';
+import { NotificationsService } from './notifications.service';
 @Injectable()
 export class UserService {
   private token_name = 'teamsuite_token';
   private isLogged:Boolean = false;
   private user = {};
 
-  constructor(private http: Http, private localStorage: LocalStorage, private httpClient : HttpClient){
+  constructor(private http: Http, private localStorage: LocalStorage, private httpClient : HttpClient, private notifications: NotificationsService){
     this.isLogged = !!localStorage.get(this.token_name);
+    if(this.isLogged){
+      this.refreshUserData();
+    }
   }
 
   sendLogin(login: string, password: string){
@@ -24,8 +28,12 @@ export class UserService {
           this.localStorage.set(this.token_name, res.token);
           this.isLogged = true;
           this.refreshUserData();
+          this.notifications.add("success", "Zalogowałeś się poprawnie.");
+        } else {
+          this.notifications.add("danger", "Podałeś błędne dane logowania. Spróbuj ponownie.");
         }
-        console.log("Czy zalogowano : %s", res.success);
+      
+      
         return res.success;
       });
   }

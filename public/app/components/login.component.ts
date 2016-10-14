@@ -15,17 +15,12 @@ export class LoginComponent {
   }
   
   submitLogin(login, password){
-    console.log("Próbuję logować %s, %s", login, password);
     this.userService.sendLogin(login, password).subscribe( (result) => {
-      if(result) {
-        console.log("Zalogowano");
-        //this.Router.navigate(['']);
-      }
+      
     });
   }
   
   submitLogout(){
-    console.log("Wylogowuje");
     this.userService.sendLogout();
   }
   

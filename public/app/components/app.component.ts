@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { NotificationsService } from '../services/notifications.service';
 
 declare var $:any;
 
@@ -14,7 +15,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(){ };
   
   ngAfterViewInit() {
-    console.log("Activating template features.");
     $.AdminBSB.browser.activate();
     $.AdminBSB.leftSideBar.activate();
     $.AdminBSB.rightSideBar.activate();
@@ -22,6 +22,5 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     $.AdminBSB.dropdownMenu.activate();
     $.AdminBSB.input.activate();
     $.AdminBSB.select.activate();
-    $.AdminBSB.search.activate();
   };
 }

@@ -31,12 +31,13 @@ export class Server {
   }
 
   private startRoutes(){
-    this.app_.get('/', (req: express.Request, res: express.Response) => {
+    this.app_.use('/api/v1/users', userRoutes);
+    this.app_.use('/auth', authRoutes);this
+    
+    this.app_.get('/*', (req: express.Request, res: express.Response) => {
       res.sendFile(path.resolve(__dirname, '../../public/index.html'));
     });
     
-    this.app_.use('/api/v1/users', userRoutes);
-    this.app_.use('/auth', authRoutes);
   }
 
   private startStatic(){

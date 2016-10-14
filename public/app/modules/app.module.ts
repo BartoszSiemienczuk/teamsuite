@@ -10,7 +10,8 @@ import { UserinfoComponent } from '../components/userinfo.component';
 import { SidebarComponent } from '../components/sidebar.component';
 import { UserService }    from '../services/user.service';
 import { HttpClient }    from '../services/httpClient.service';
-import { LocalStorage }   from '../services/localStorage.service'
+import { LocalStorage }   from '../services/localStorage.service';
+import { NotificationsService } from '../services/notifications.service';
 import { routing, appRoutingProviders } from '../routing/app.routing';
 import 'rxjs/Rx';
  
@@ -34,6 +35,7 @@ import 'rxjs/Rx';
     UserService,
     LocalStorage,
     HttpClient,
+    NotificationsService,
     appRoutingProviders
   ],
   bootstrap:    [ 

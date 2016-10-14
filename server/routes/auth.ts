@@ -17,11 +17,11 @@ router.use(expressJwt({secret : secret, credentialsRequired: false}).unless({pat
 router.post('/login', (req : express.Request, res : express.Response) => {
   User.findOne({login: req.body.login}, (err, user) => {
     if(!user){
-      res.status(401).json({error:"bad_login", success: false, token: null});
+      res.status(200).json({error:"bad_login", success: false, token: null});
     } else {
       user.comparePassword(req.body.password, (err, matches) => {
         if(!matches){ //bad credentials
-          res.status(401).json({error:"bad_password", success: false, token: null});
+          res.status(200).json({error:"bad_password", success: false, token: null});
         } else { //credentials match, lets login and save user data in token
           delete user.password;
           let token_ = jwt.sign({user:user}, secret, {expiresIn: Config.tokenExpiration});

@@ -1,0 +1,4 @@
+/* Top bar dropdown fix */
+.dropdown-menu ul.menu{
+  list-style:none;
+}
