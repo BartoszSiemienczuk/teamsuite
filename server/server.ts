@@ -41,7 +41,6 @@ export class Server {
   }
 
   private startStatic(){
-    console.log("Dir : %s", path.resolve(__dirname, '../app'));
     this.app_.use('/libs', express.static(path.resolve(__dirname, '../../node_modules')));
     this.app_.use('/app', express.static(path.resolve(__dirname, '../app')));
     this.app_.use(express.static(path.resolve(__dirname, '../../public')));

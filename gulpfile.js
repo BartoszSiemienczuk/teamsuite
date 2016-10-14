@@ -22,13 +22,13 @@ gulp.task('build:server', function(){
 });
 
 gulp.task('build:app', function(){
-    var tsProject = ts.createProject(path.resolve('./public/tsconfig.json'));
+    var tsProject = ts.createProject(path.resolve('./public/tsconfig.json'), { outFile:"main.js"});
     return gulp.src(path.resolve('./public/**/*.ts'))
 		.pipe(sourcemaps.init())
     .pipe(ts(tsProject))
 	  .js
     .pipe(sourcemaps.write())
-		.pipe(gulp.dest(path.resolve('./dist')));
+		.pipe(gulp.dest(path.resolve('./dist/app')));
 });
 
 gulp.task('watch', function() {
@@ -41,4 +41,4 @@ gulp.task('build', function(callback){
     runSequence('clean', 'build:server', 'build:app', callback);
 });
 
-gulp.task('default', ['watch']);
+gulp.task('default', ['build', 'watch']);
