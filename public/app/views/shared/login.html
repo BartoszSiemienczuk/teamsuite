@@ -45,12 +45,12 @@
 <div class="card">
     <div class="header bg-blue">
       <h2>
-        Zaloguj się...
+        SIGN INTO YOUR ACCOUNT...
       </h2>
     </div>
     <div *ngIf="loggedIn==false" class="body">
         <form novalidate="novalidate" id="sign_in" method="POST">
-            <div class="msg">Zaloguj się, aby uzyskać dostęp do wszystkich funkcjonalności.</div>
+            <div class="msg">Please log in to access all of the features.</div>
             <div class="input-group">
                 <span class="input-group-addon">
                     <i class="material-icons">person</i>
@@ -69,27 +69,27 @@
             </div>
             <div class="row">
                 <div class="col-xs-8 p-t-5">
-                    <input name="rememberme" id="rememberme" class="filled-in chk-col-pink" type="checkbox">
+                    <input name="rememberme" id="rememberme" class="filled-in chk-col-blue-grey" type="checkbox">
                     <label for="rememberme">Remember Me</label>
                 </div>
                 <div class="col-xs-4">
-                    <button (click)="submitLogin(login.value, password.value)" class="btn btn-block bg-pink waves-effect" type="button">ZALOGUJ</button>
+                    <button (click)="submitLogin(login.value, password.value)" class="btn btn-block bg-blue-grey waves-effect" type="button">LOG IN</button>
                 </div>
             </div>
             <div class="row m-t-15 m-b--20">
                 <div class="col-xs-6">
-                    <a href="sign-up.html">Załóż konto!</a>
+                    <a href="sign-up.html">Create account</a>
                 </div>
                 <div class="col-xs-6 align-right">
-                    <a href="forgot-password.html">Zapomniałeś hasła?</a>
+                    <a href="forgot-password.html">Forgot your password?</a>
                 </div>
             </div>
         </form>
     </div>
     <div *ngIf="loggedIn" class="body">
       <p>
-        Jesteś zalogowany jako : {{user.login}}. 
-        <a (click)="submitLogout()" class="btn btn-lg bg-blue waves-effect"><i class="material-icons">lock</i>WYLOGUJ</a>
+        You're logged in as : {{user.login}}. 
+        <a (click)="submitLogout()" class="btn bg-blue waves-effect"><i class="material-icons">lock</i> LOGOUT</a>
       </p>
       
     </div>

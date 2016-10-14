@@ -1,18 +1,18 @@
 <!-- User Info -->
 <div class="user-info">
-	<div class="image">
-		<img src="/libs/adminbsb-materialdesign/images/user.png" width="48" height="48" alt="User" />
+	<div *ngIf="loggedIn && user.avatar" class="image">
+		<img ng-src="user.avatar" width="48" height="48" alt="User" />
 	</div>
 	<div class="info-container">
-		<div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{loggedIn ? user.login : 'Gosc'}}</div>
+		<div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{loggedIn ? user.login : 'Guest'}}</div>
 		<div *ngIf="loggedIn" class="email">{{user.email}}</div>
 		<div class="btn-group user-helper-dropdown">
 			<i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
 			<ul class="dropdown-menu pull-right">
-				<li><a href="javascript:void(0);"><i class="material-icons">person</i>Profil</a></li>
-				<li role="seperator" class="divider"></li>
-				<li *ngIf="loggedIn"><a (click)="submitLogout()"><i class="material-icons">input</i>Wyloguj</a></li>
-				<li *ngIf="loggedIn==false"><a routerLink="/login"><i class="material-icons">lock</i>Zaloguj</a></li>
+				<li *ngIf="loggedIn"><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
+				<li *ngIf="loggedIn" role="seperator" class="divider"></li>
+				<li *ngIf="loggedIn"><a (click)="submitLogout()"><i class="material-icons">input</i>Logout</a></li>
+				<li *ngIf="loggedIn==false"><a routerLink="/login"><i class="material-icons">lock</i>Sign In</a></li>
 			</ul>
 		</div>
 	</div>

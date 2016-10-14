@@ -18,7 +18,6 @@ export class UserService {
   }
 
   sendLogin(login: string, password: string){
-    console.log("send login!");
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     
@@ -28,9 +27,9 @@ export class UserService {
           this.localStorage.set(this.token_name, res.token);
           this.isLogged = true;
           this.refreshUserData();
-          this.notifications.add("success", "Zalogowałeś się poprawnie.");
+          this.notifications.add("success", "You have been logged in correctly.");
         } else {
-          this.notifications.add("danger", "Podałeś błędne dane logowania. Spróbuj ponownie.");
+          this.notifications.add("danger", "There was an error while logging you in. Check your login data and try again.");
         }
       
       
@@ -42,14 +41,13 @@ export class UserService {
     this.user = {};
     this.isLogged = false;
     this.localStorage.remove(this.token_name);
+    this.notifications.add("info", "You have been logged out. See you next time!");
   }
 
   refreshUserData(){
     this.httpClient.get('/auth/user')
       .map((res)=>res.json())
       .subscribe( (res) => {
-        console.log("User object : ");
-        console.log(res.user.user);
         this.user = res.user.user;
       });
   }
@@ -68,7 +66,7 @@ export class UserService {
         this.refreshUserData();
       return this.user;
     } else {
-      return {};
+      return null;
     }
   }
 

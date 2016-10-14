@@ -1,4 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
+import { UserService } from '../services/user.service';
 declare var $:any;
 
 @Component({
@@ -6,9 +7,17 @@ declare var $:any;
   templateUrl: '/app/views/shared/topbar.html'
 })
 export class TopbarComponent implements AfterViewInit {
-  constructor () { }
+  constructor (private userService: UserService) { }
   
   ngAfterViewInit(){
     $.AdminBSB.search.activate();
+  }
+  
+  get loggedIn(){
+    return this.userService.loggedIn;
+  }
+  
+  get user(){
+    return this.userService.userData;
   }
 }
