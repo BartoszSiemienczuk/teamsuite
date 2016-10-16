@@ -36,7 +36,7 @@ router.get('/user', (req, res) => {
   if(req['loggedIn']){
     res.status(200).json({user: req['user']});
   } else {
-    res.status(401).json({error:"Unauthorized access."});
+    res.status(401).json({error:"Unauthorized."});
   }
 });
 

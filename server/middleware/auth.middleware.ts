@@ -13,11 +13,13 @@ var middleware = function (req, res, next) {
         req['loggedIn'] = false;
       } else {
         //good, authenticated request
+      console.log("[AUTH] Logged in as : %s.", decoded.user.login);
         req['loggedIn'] = true;
         req['user'] = decoded;
       }
     });
   } else {
+    console.log("[AUTH] Not logged in.");
     req['loggedIn'] = false;
   }
   next();
