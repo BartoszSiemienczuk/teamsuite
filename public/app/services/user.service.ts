@@ -9,6 +9,7 @@ export class UserService {
   private token_name = 'teamsuite_token';
   private isLogged:Boolean = false;
   private user = {};
+  public redirectUrl : string = "";
 
   constructor(private http: Http, private localStorage: LocalStorage, private httpClient : HttpClient, private notifications: NotificationsService){
     this.isLogged = !!localStorage.get(this.token_name);

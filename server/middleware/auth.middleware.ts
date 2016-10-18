@@ -11,16 +11,16 @@ var middleware = function (req, res, next) {
     jwt.verify(jwtoken, Config.secret, (error, decoded) => {
       if(error){
         req['loggedIn'] = false;
+        req['user'] = { } ;
       } else {
         //good, authenticated request
-      console.log("[AUTH] Logged in as : %s.", decoded.user.login);
         req['loggedIn'] = true;
         req['user'] = decoded;
       }
     });
   } else {
-    console.log("[AUTH] Not logged in.");
     req['loggedIn'] = false;
+    req['user'] = { } ;
   }
   next();
 };
