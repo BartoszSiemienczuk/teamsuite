@@ -4,7 +4,7 @@
 		<!-- #END# Call Search -->
 	
 		<!-- Notifications -->
-		<li *ngIf="loggedIn" class="dropdown">
+		<li class="dropdown">
 			<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
 				<i class="material-icons">notifications</i>
 				<span class="label-count">7</span>
@@ -35,7 +35,7 @@
 		</li>
 		<!-- #END# Notifications -->
 		<!-- Tasks -->
-		<li *ngIf="loggedIn" class="dropdown">
+		<li class="dropdown">
 			<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
 				<i class="material-icons">flag</i>
 				<span class="label-count">9</span>
@@ -64,6 +64,6 @@
 			</ul>
 		</li>
 		<!-- #END# Tasks -->
+		<li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a></li>
 		<li *ngIf="loggedIn==false" class="pull-right"><a routerLink="/login"><i class="material-icons">lock_open</i></a></li>
-		<li *ngIf="loggedIn" class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a></li>
 </ul>

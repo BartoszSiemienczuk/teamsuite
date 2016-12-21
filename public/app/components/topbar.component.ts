@@ -11,6 +11,8 @@ export class TopbarComponent implements AfterViewInit {
   
   ngAfterViewInit(){
     $.AdminBSB.search.activate();
+    $.AdminBSB.navbar.activate();
+    $.AdminBSB.rightSideBar.activate();
   }
   
   get loggedIn(){

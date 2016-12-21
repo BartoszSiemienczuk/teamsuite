@@ -34,7 +34,7 @@ router.post('/login', (req : express.Request, res : express.Response) => {
 
 router.get('/user', (req, res) => {
   if(req['loggedIn']){
-    res.status(200).json({user: req['user']});
+    res.status(200).json(req['user'].user);
   } else {
     res.status(401).json({error:"Unauthorized."});
   }

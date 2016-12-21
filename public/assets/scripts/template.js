@@ -75,6 +75,7 @@ $.AdminBSB.leftSideBar = {
 
         //Collapse or Expand Menu
         $('.menu-toggle').on('click', function (e) {
+          console.log('clicked');
             var $this = $(this);
             var $content = $this.next();
 
@@ -157,8 +158,6 @@ $.AdminBSB.leftSideBar = {
 $.AdminBSB.rightSideBar = {
     activate: function () {
         var _this = this;
-        var $sidebar = $('#rightsidebar');
-        var $overlay = $('.overlay');
 
         //Close sidebar
         $(window).click(function (e) {
@@ -166,13 +165,13 @@ $.AdminBSB.rightSideBar = {
             if (e.target.nodeName.toLowerCase() === 'i') { $target = $(e.target).parent(); }
 
             if (!$target.hasClass('js-right-sidebar') && _this.isOpen() && $target.parents('#rightsidebar').length === 0) {
-                if (!$target.hasClass('bars')) $overlay.fadeOut();
-                $sidebar.removeClass('open');
+                if (!$target.hasClass('bars')) $('.overlay').fadeOut();
+                $('#rightsidebar').removeClass('open');
             }
         });
 
         $('.js-right-sidebar').on('click', function () {
-            $sidebar.toggleClass('open');
+            $('#rightsidebar').toggleClass('open');
             if (_this.isOpen()) { $overlay.fadeIn(); } else { $overlay.fadeOut(); }
         });
     },

@@ -11,7 +11,7 @@
           <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
               <div class="form-group">
                   <div class="form-line">
-                      <input readonly="readonly" id="login" class="form-control" value="login" type="text">
+                      <input [(ngModel)]="user.login" [ngModelOptions]="{standalone: true}" readonly="readonly" id="login" class="form-control" type="text">
                   </div>
               </div>
           </div>
@@ -24,7 +24,7 @@
           <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
               <div class="form-group">
                   <div class="form-line">
-                      <input id="email" class="form-control" value="email" type="text">
+                      <input [(ngModel)]="user.email" [ngModelOptions]="{standalone: true}" id="email" class="form-control"  type="text">
                   </div>
               </div>
           </div>
@@ -37,7 +37,7 @@
           <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
               <div class="form-group">
                   <div class="form-line">
-                      <input id="name" class="form-control" value="name" type="text">
+                      <input [(ngModel)]="user.name" [ngModelOptions]="{standalone: true}" id="name" class="form-control" type="text">
                   </div>
               </div>
           </div>
@@ -45,6 +45,7 @@
       
       <div class="row clearfix">
         <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
+          User : {{user.login}} {{user.email}} {{user.name}}
           <a class="btn btn-primary waves-effect"><i class="material-icons">save</i> Save</a>
         </div>
       </div>
