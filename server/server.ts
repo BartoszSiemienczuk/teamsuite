@@ -1,14 +1,19 @@
 import * as express from 'express';
 import * as db from 'mongoose';
+import socketIo = require('socket.io');
 import { AuthMiddleware } from './middleware/auth.middleware';
 import { userRoutes } from './routes/users';
 import { authRoutes } from './routes/auth';
+import { ChatSocket } from './sockets/chat.socket';
 import path = require('path');
 
 export class Server {
   private app_ : express.Express;
-  port_ : number = 3000;
-  host_ : string = '0.0.0.0';
+  private port_ : number = 3000;
+  private host_ : string = '0.0.0.0';
+  private server_ : any;
+  private io_ : any;
+  private chatSocket: ChatSocket; 
 
   db_url_ : string ='mongodb://localhost/teamsuite';
 
@@ -23,11 +28,13 @@ export class Server {
     this.startMiddlewares();
     this.startRoutes();
     
-    let server = this.app_.listen(this.port_, this.host_, 511, ()=>{
-      var host = server.address().address;
-      var port = server.address().port;
+    this.server_ = this.app_.listen(this.port_, this.host_, 511, ()=>{
+      var host = this.server_.address().address;
+      var port = this.server_.address().port;
       console.log('App listening at http://%s:%s', host, port);
+      this.startSockets();
     });
+    
   }
 
   private startRoutes(){
@@ -48,6 +55,15 @@ export class Server {
 
   private startMiddlewares(){
     this.app_.use(AuthMiddleware);
+  }
+
+  private startSockets(){
+    if(this.server_){
+      this.io_=socketIo(this.server_);
+      this.chatSocket = new ChatSocket(this.io_);
+    } else {
+      console.error("You need to start express server before starting sockets.");
+    }
   }
   
 }

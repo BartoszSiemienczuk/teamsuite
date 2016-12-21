@@ -60,6 +60,12 @@
     <script src="/libs/adminbsb-materialdesign/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
     <script src="/libs/adminbsb-materialdesign/plugins/node-waves/waves.js"></script>
     <script src="/assets/scripts/template.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript">
+			var socketUrl = window.location.origin+"/sockets/chat";
+			console.log("Connecting to "+socketUrl);
+			var socket = io.connect(socketUrl);
+		</script>
 </body>
 
 </html>
