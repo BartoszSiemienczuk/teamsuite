@@ -13,9 +13,7 @@ export class LoggedUserResolve implements Resolve<User> {
   resolve(route: ActivatedRouteSnapshot): Promise<User>|boolean {
     console.log("Resolving logged user from API");
     return this.userService.fetchUserData().toPromise().then(res => {
-      console.log("Fetched user");
-      console.log(res);
-      return res;
+      return res.user;
     });
   }
 }

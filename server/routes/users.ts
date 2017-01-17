@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import * as User from '../model/user';
+import {User} from '../model';
 
 let router = express.Router();
 
@@ -24,7 +24,7 @@ router.get('/', (req : express.Request, res : express.Response) => {
 });
 
 router.post('/', (req : express.Request, res : express.Response) => {
-  let user = new User({login: req.body.login, password: req.body.password});
+  let user = new User({login: req.body.login, password: req.body.password, name:req.body.name, email:req.body.email});
   user.save();
   res.status(200).json({success: 'true', login: user.login});
 });

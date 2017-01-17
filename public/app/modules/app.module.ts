@@ -18,6 +18,7 @@ import { HttpClient }    from '../services/httpClient.service';
 import { LocalStorage }   from '../services/localStorage.service';
 import { NotificationsService } from '../services/notifications.service';
 import { AuthGuard } from '../services/auth-guard.service';
+import { ChatService } from '../services/chat.service';
 
 import { LoggedUserResolve } from'../services/resolvers/logged-user.resolve.ts';
 
@@ -51,7 +52,8 @@ import 'rxjs/add/operator/toPromise';
     NotificationsService,
     AuthGuard,
     LoggedUserResolve,
-    appRoutingProviders
+    appRoutingProviders,
+    ChatService
   ],
   bootstrap:    [ 
     AppComponent 

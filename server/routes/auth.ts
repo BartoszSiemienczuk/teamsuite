@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import * as User from '../model/user';
+import { User, Team } from '../model';
 import { Config } from '../config';
 var expressJwt = require ('express-jwt');
 var jwt = require ('jsonwebtoken');
@@ -15,7 +15,8 @@ router.use(bodyParser.urlencoded({extended:true}));
 router.use(expressJwt({secret : secret, credentialsRequired: false}).unless({path : ['/auth/login']}));
 
 router.post('/login', (req : express.Request, res : express.Response) => {
-  User.findOne({login: req.body.login}, (err, user) => {
+  console.log("LOGIN REQUEST");
+  User.findOne({login: req.body.login}).populate('teams').exec((err, user) => {
     if(!user){
       res.status(200).json({error:"bad_login", success: false, token: null});
     } else {
@@ -34,10 +35,37 @@ router.post('/login', (req : express.Request, res : express.Response) => {
 
 router.get('/user', (req, res) => {
   if(req['loggedIn']){
-    res.status(200).json(req['user'].user);
+    let uid = req['user'].user._id;
+    console.log("Finding uid="+ uid);
+    User.findOne({_id: uid}).select('_id login name teams role email').populate('teams').exec((err, usr) => {
+      console.log("Found uid="+ uid);
+      let token_ = jwt.sign({user:usr}, secret, {expiresIn: Config.tokenExpiration});
+      res.status(200).json({user:usr, token:token_});
+    });
   } else {
     res.status(401).json({error:"Unauthorized."});
   }
+});
+
+router.post('/user', (req, res) => {
+  if(req['loggedIn']){
+    let uid = req['user'].user._id;
+    console.log('Updating user login : '+ uid);
+    console.log('Updating email : '+ req.body.email);
+    console.log('Updating name : '+ req.body.name);
+    User.findOne({_id:uid}, (err, usr) => {
+      if(err){
+        res.status(200).json({error:'Error updating DB.', success: false});
+      } else {
+        usr.email = req.body.email; 
+        usr.name = req.body.name;
+        usr.save();
+        res.status(200).json({error:null, success: true, login: usr.login});
+      }
+    });
+  } else {
+    res.status(401).json({error:"Unauthorized."});
+  } 
 });
 
 export { router as authRoutes};

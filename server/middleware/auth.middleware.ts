@@ -15,6 +15,7 @@ var middleware = function (req, res, next) {
       } else {
         //good, authenticated request
         req['loggedIn'] = true;
+        delete decoded.user.password;
         req['user'] = decoded;
       }
     });

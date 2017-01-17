@@ -33,6 +33,7 @@ gulp.task('build:app', function(){
 
 gulp.task('watch', function() {
     gulp.watch(['./public/**/*.ts'], ['build:app']);
+    gulp.watch(['./public/**/*.html'], ['build:app']);
     gulp.watch(['./server/**/*.ts'], ['build:server']);
 });
 

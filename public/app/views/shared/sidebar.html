@@ -4,9 +4,9 @@
 </ul>
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane fade in active in active" id="teams">
+        <p>SELECT ACTIVE TEAM</p>
         <ul class="demo-choose-skin">
-          <li><span>Zespół pierwszy</span></li>
-          <li><span>Zespół drugi</span></li>
+          <li *ngFor="let team of userTeams" (click)="setSelectedTeam(team)"><span>{{team.name}} <i *ngIf="team._id==selectedTeam._id" class="material-icons">check</i></span></li>
         </ul>
     </div>
     <div role="tabpanel" class="tab-pane fade" id="settings">

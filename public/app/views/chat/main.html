@@ -19,61 +19,34 @@
         <div class="body chat-box">
           <div class="row">
             <div class="col-xs-12 col-md-4 col-lg-3 members-list">
+              
+              <span><Strong>Chatting with team : </Strong>{{activeTeam.name}}</span>
               <h5>
                 Team members
               </h5>
               <ul class="list-group">
-                  <li class="list-group-item">Bartosz S.<span class="badge bg-green"><i class=" material-icons">person</i></span></li>
-                <li class="list-group-item">Jan K.<span class="badge bg-green"><i class=" material-icons">person</i></span></li>
-                <li class="list-group-item">Stefan N.<span class="badge bg-orange"><i class=" material-icons">person_outline</i></span></li>
-                <li class="list-group-item">Anna P. <span class="badge bg-green"><i class=" material-icons">person</i></span></li>
-                <li class="list-group-item">Edward L.<span class="badge bg-orange"><i class=" material-icons">person_outline</i></span></li>
+<!--                 <li class="list-group-item">Anna P. <span class="badge bg-green"><i class=" material-icons">person</i></span></li>
+                <li class="list-group-item">Edward L.<span class="badge bg-orange"><i class=" material-icons">person_outline</i></span></li> -->
+                <li *ngFor="let user of userList" class="list-group-item">{{user}} <span class="badge bg-green"><i class=" material-icons">person</i></span></li>
               </ul>
+              <h5>
+                Show server messages
+              </h5>
+              <div class="switch">
+                  <label>NO<input checked="" type="checkbox" [(ngModel)]="showServerMessages"><span class="lever"></span>YES</label>
+              </div>
             </div>
             <div class="col-xs-12 col-md-8 col-lg-9">
               <div class="chat-container">
                 <ul class="message-list">
-                  <li class="message own">
+                  <li class="message" *ngFor="let msg of messages" [class.hidden]="msg.user._id==0 && !showServerMessages">
                     <img class="message-avatar" src="https://smileculture.com/wp-content/uploads/2015/11/avatar.png" alt="username"/>
                     <div class="message-body">
                       <p class="message-summary">
-                        <span class="message-author font-bold">You</span> <span class="message-time">3 mins ago</span>
+                        <span class="message-author font-bold">{{msg.user.name}}</span> <span class="message-time">{{msg.created | date}}</span>
                       </p>
                       <p class="message-text">
-                        Lorem ipsum dolor sit amet. Consectetur adepiscing elit.
-                      </p>
-                    </div>
-                  </li>
-                  <li class="message">
-                    <img class="message-avatar" src="https://smileculture.com/wp-content/uploads/2015/11/avatar.png" alt="username"/>
-                    <div class="message-body">
-                      <p class="message-summary">
-                        <span class="message-author font-bold">Jan K.</span> <span class="message-time">2 mins ago</span>
-                      </p>
-                      <p class="message-text">
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur
-                      </p>
-                    </div>
-                  </li>
-                  <li class="message">
-                    <img class="message-avatar" src="https://smileculture.com/wp-content/uploads/2015/11/avatar.png" alt="username"/>
-                    <div class="message-body">
-                      <p class="message-summary">
-                        <span class="message-author font-bold">Anna P.</span> <span class="message-time">1 min ago</span>
-                      </p>
-                      <p class="message-text">
-                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                      </p>
-                    </div>
-                  </li>
-                  <li class="message own">
-                    <img class="message-avatar" src="https://smileculture.com/wp-content/uploads/2015/11/avatar.png" alt="username"/>
-                    <div class="message-body">
-                      <p class="message-summary">
-                        <span class="message-author font-bold">You</span> <span class="message-time">just now</span>
-                      </p>
-                      <p class="message-text">
-                        Hello again.
+                        {{msg.text}}
                       </p>
                     </div>
                   </li>
@@ -83,13 +56,13 @@
                 <div class="message-input-container">
                   <div class="input-group">
                       <span class="input-group-addon">
-                          <a href="#"><i class="material-icons">attachment</i></a>
+                          <a><i class="material-icons">attachment</i></a>
                       </span>
                       <div class="form-line">
-                          <input class="form-control" placeholder="Enter your message..." type="text">
+                          <input class="form-control" placeholder="Enter your message..." type="text" [(ngModel)]="messageText">
                       </div>
                       <span class="input-group-addon">
-                          <a href="#"><i class="material-icons">send</i></a>
+                          <a (click)="sendMessage()" (keyup.enter)="sendMessage()"><i class="material-icons">send</i></a>
                       </span>
                   </div>
                 </div>

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { LocalStorage } from './localStorage.service';
 import { NotificationsService } from './notifications.service';
 import { User } from '../models/user.model';
+import { Team } from '../models/team.model';
 import { Observable } from 'rxjs/Observable';
 
 declare var $ : any;
@@ -15,6 +16,7 @@ export class UserService {
   private token_name = 'teamsuite_token';
   private isLogged:Boolean = false;
   private user: User;
+  private selectedTeam: Team = null; 
   public redirectUrl : string = "";
 
   constructor(private http: Http, private localStorage: LocalStorage, private httpClient : HttpClient, private notifications: NotificationsService, private router: Router){
@@ -41,6 +43,24 @@ export class UserService {
       });
   }
 
+  sendProfileUpdate(name: string, email: string): any{
+    if(this.isLogged){
+      return this.httpClient.post('/auth/user', {name: name, email:email}).map( res => res.json() ).map((res)=>{
+        if(res.success){
+          this.refreshUserData();
+          this.notifications.add("success", "Your data was updated successfully.");
+        } else {
+          this.notifications.add("danger", "There was an error updating your data : "+res.error+". Please try again.");
+        }
+        console.log(res);
+        return res;
+      });
+    } else {
+      console.log("Not logged");
+      return {success:false, error:'Not logged in.'}; 
+    }
+  }
+
   sendLogout(){
     this.user = null;
     this.isLogged = false;
@@ -51,13 +71,24 @@ export class UserService {
 
   refreshUserData(){
       this.fetchUserData().subscribe( (res) => {
-        this.user = res;
+        console.log("New token = " + res.token);
+        this.user = res.user;
+        this.localStorage.set(this.token_name, res.token);
         this.isLogged = true;
       });
   }
 
-  fetchUserData(): Observable<User> {
+  fetchUserData(): Observable<any> {
     return this.httpClient.get('/auth/user').map((res)=>res.json());
+  }
+  
+  setActiveTeam(team){
+    this.selectedTeam = team;
+  }
+
+  isAdmin(){
+    if(!!this.loggedIn) return false;
+    return this.userData.role=="ADMIN";
   }
 
   get token(){
@@ -81,4 +112,28 @@ export class UserService {
   get loggedIn(){
     return this.isLogged;
   }
+
+  get teams(){
+    if(this.isLogged){
+      return this.userData.teams;
+    } else {
+      return [];
+    }
+  }
+
+  get activeTeam(){
+    if(this.isLogged){
+      if(this.selectedTeam)
+        return this.selectedTeam;
+      else if(this.userData.teams[0])
+        return this.userData.teams[0];
+      else return null;
+    }
+  }
+
+  set activeTeam(team){
+    this.selectedTeam=team;
+  }
+
+  
 }

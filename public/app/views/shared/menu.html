@@ -34,7 +34,7 @@
         </li>
       
         <li>
-            <a href="#" class="menu-toggle">
+            <a class="menu-toggle">
                 <i class="material-icons">bug_report</i>
                 <span>MAINTAIN</span>
             </a>
@@ -54,7 +54,7 @@
       
       
         <li>
-            <a href="#" class="menu-toggle">
+            <a class="menu-toggle">
                 <i class="material-icons">settings</i>
                 <span>MANAGE</span>
             </a>
@@ -64,7 +64,20 @@
                         <span>Your teams</span>
                     </a>
                 </li>
+              
+                <li *ngIf="isAdmin()">
+                    <a href="#">
+                        <span>Manage teams</span>
+                    </a>
+                </li>
+              
+                <li *ngIf="isAdmin()">
+                    <a href="#">
+                        <span>Manage users</span>
+                    </a>
+                </li>
             </ul>
+            
         </li>
     </ul>
 </div>

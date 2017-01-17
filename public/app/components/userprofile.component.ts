@@ -12,6 +12,10 @@ export class UserprofileComponent implements OnInit {
 
     constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) { };
   
+    sendProfileUpdate(){
+      this.userService.sendProfileUpdate(this.user.name, this.user.email).subscribe((res)=>{ });
+    }
+  
     get loggedIn(){
       return this.userService.loggedIn;
     }
@@ -24,10 +28,10 @@ export class UserprofileComponent implements OnInit {
       this.route.data.subscribe((data: any) => {
         this.user = data.user;
         //filling missing fields
-        if(!!this.user.name){
+        if(!data.user.name){
           this.user.name="";
         }
-        if(!!this.user.email){
+        if(!data.user.email){
           this.user.email="";
         }
       });

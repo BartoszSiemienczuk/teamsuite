@@ -10,6 +10,10 @@ declare var $:any;
 export class MenuComponent implements AfterViewInit{
   constructor(private userService: UserService){ };
   
+  isAdmin(){
+    return this.userService.isAdmin();
+  }
+  
   get user(){
     return this.userService.userData;
   }

@@ -9,7 +9,7 @@ import path = require('path');
 
 export class Server {
   private app_ : express.Express;
-  private port_ : number = 3000;
+  private port_ : number = 8080;
   private host_ : string = '0.0.0.0';
   private server_ : any;
   private io_ : any;
