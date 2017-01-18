@@ -17,6 +17,7 @@ var middleware = function (req, res, next) {
         req['loggedIn'] = true;
         delete decoded.user.password;
         req['user'] = decoded;
+        req['role'] = req['user'].user.role;
       }
     });
   } else {

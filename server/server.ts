@@ -4,6 +4,7 @@ import socketIo = require('socket.io');
 import { AuthMiddleware } from './middleware/auth.middleware';
 import { userRoutes } from './routes/users';
 import { authRoutes } from './routes/auth';
+import { teamRoutes } from './routes/teams';
 import { ChatSocket } from './sockets/chat.socket';
 import path = require('path');
 
@@ -39,7 +40,8 @@ export class Server {
 
   private startRoutes(){
     this.app_.use('/api/v1/users', userRoutes);
-    this.app_.use('/auth', authRoutes);this
+    this.app_.use('/auth', authRoutes);
+    this.app_.use('/api/v1/teams', teamRoutes);
     
     this.app_.get('/*', (req: express.Request, res: express.Response) => {
       res.sendFile(path.resolve(__dirname, '../../public/index.html'));

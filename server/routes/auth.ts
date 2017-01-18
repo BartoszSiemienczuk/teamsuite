@@ -36,9 +36,7 @@ router.post('/login', (req : express.Request, res : express.Response) => {
 router.get('/user', (req, res) => {
   if(req['loggedIn']){
     let uid = req['user'].user._id;
-    console.log("Finding uid="+ uid);
     User.findOne({_id: uid}).select('_id login name teams role email').populate('teams').exec((err, usr) => {
-      console.log("Found uid="+ uid);
       let token_ = jwt.sign({user:usr}, secret, {expiresIn: Config.tokenExpiration});
       res.status(200).json({user:usr, token:token_});
     });
@@ -50,9 +48,6 @@ router.get('/user', (req, res) => {
 router.post('/user', (req, res) => {
   if(req['loggedIn']){
     let uid = req['user'].user._id;
-    console.log('Updating user login : '+ uid);
-    console.log('Updating email : '+ req.body.email);
-    console.log('Updating name : '+ req.body.name);
     User.findOne({_id:uid}, (err, usr) => {
       if(err){
         res.status(200).json({error:'Error updating DB.', success: false});

@@ -29,17 +29,51 @@ router.post('/', (req : express.Request, res : express.Response) => {
   res.status(200).json({success: 'true', login: user.login});
 });
 
-router.post('/:login', (req : express.Request, res : express.Response) => {
-  var login = req.params.login;
-  if(req['loggedIn']==false){
+router.patch('/:login', (req: express.Request, res: express.Response) => {
+  var role = req['user'].user.role;
+  console.log("Role = "+role);
+  if(req['loggedIn']==false || role!="ADMIN"){
     res.status(401).json({success:false, error:"Unauthorized."});
-  } else {
-    if(req['user'].user.login != login){
-      res.status(401).json({success:false, error:"Unauthorized."});      
-    } else {
-      res.status(200).json({success: 'true', login: login});
-    }
+    return;    
   }
+ 
+  User.findOne({login: req.params['login']}, (err, user) => {
+    if(err){
+      res.status(200).json({success:false, error:"Error loading user."});
+      return;
+    } else {
+      if(req.body.name) user.name = req.body.name;
+      if(req.body.email) user.email = req.body.email;
+      if(req.body.password) user.password = req.body.password;
+      user.save();
+      res.status(200).json({success:true, error:null, login: user.login});
+      return;
+    }
+  });
+});
+
+router.post('/role', (req: express.Request, res: express.Response) => {
+  var uid = req.body.user_id;
+  var role = req.body.role;
+  if(req['loggedIn']==false || req['role']!="ADMIN"){
+    res.status(401).json({success:false, error:"Unauthorized."});
+    return;     
+  }
+  if(role!="ADMIN" && role!="USER" && role!="LEADER"){
+      res.status(200).json({success:false, error:"Invalid role type."});
+      return;
+  }
+  User.findOne({_id: uid}, (err, user) => {
+    if(err){
+      res.status(200).json({success:false, error:"Error loading user."});
+      return;
+    } else {
+      user.role = req.body.role;
+      user.save();
+      res.status(200).json({success:true, error:null, login: user.login});
+      return;
+    }
+  });
 });
 
 export { router as userRoutes};

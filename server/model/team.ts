@@ -12,7 +12,7 @@ interface ITeamModel extends ITeam, mongoose.Document{
 
 var teamSchema = new mongoose.Schema({
   name: {type: String, required: true },
-  users: { type: mongoose.Schema.Types.ObjectId, ref:'User'}
+  users: [{ type: mongoose.Schema.Types.ObjectId, ref:'User'}]
 });
 
 var team = mongoose.model<ITeamModel>("Team", teamSchema);
