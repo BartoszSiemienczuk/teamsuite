@@ -14,7 +14,7 @@ gulp.task('build:server', function(){
   var tsProject = ts.createProject(path.resolve('./server/tsconfig.json'));
   return gulp.src(path.resolve('./server/**/*.ts'))
     .pipe(sourcemaps.init())
-    .pipe(ts(tsProject))
+    .pipe(tsProject())
     .js
     //.pipe(concat('server.js'))
     .pipe(sourcemaps.write())
@@ -25,7 +25,7 @@ gulp.task('build:app', function(){
     var tsProject = ts.createProject(path.resolve('./public/tsconfig.json'), { outFile:"main.js"});
     return gulp.src(path.resolve('./public/**/*.ts'))
 		.pipe(sourcemaps.init())
-    .pipe(ts(tsProject))
+    .pipe(tsProject())
 	  .js
     .pipe(sourcemaps.write())
 		.pipe(gulp.dest(path.resolve('./dist/app')));

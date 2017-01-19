@@ -11,7 +11,7 @@ import path = require('path');
 export class Server {
   private app_ : express.Express;
   private port_ : number = 8080;
-  private host_ : string = '0.0.0.0';
+  private host_ : string = '207.154.201.39';
   private server_ : any;
   private io_ : any;
   private chatSocket: ChatSocket; 

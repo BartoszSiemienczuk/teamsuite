@@ -20,7 +20,7 @@ import { NotificationsService } from '../services/notifications.service';
 import { AuthGuard } from '../services/auth-guard.service';
 import { ChatService } from '../services/chat.service';
 
-import { LoggedUserResolve } from'../services/resolvers/logged-user.resolve.ts';
+import { LoggedUserResolve } from'../services/resolvers/logged-user.resolve';
 
 import { routing, appRoutingProviders } from '../routing/app.routing';
 import 'rxjs/add/operator/map';

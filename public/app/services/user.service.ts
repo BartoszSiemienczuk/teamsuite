@@ -87,7 +87,7 @@ export class UserService {
   }
 
   isAdmin(){
-    if(!!this.loggedIn) return false;
+    if(this.loggedIn || this.userData==null) return false;
     return this.userData.role=="ADMIN";
   }
 

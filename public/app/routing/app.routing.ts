@@ -5,7 +5,7 @@ import { LoginComponent } from '../components/login.component';
 import { ChatComponent } from '../components/chat.component';
 import { UserprofileComponent } from '../components/userprofile.component';
 import { AuthGuard } from '../services/auth-guard.service';
-import { LoggedUserResolve } from '../services/resolvers/logged-user.resolve.ts';
+import { LoggedUserResolve } from '../services/resolvers/logged-user.resolve';
 
 
 const appRoutes : Routes = [
