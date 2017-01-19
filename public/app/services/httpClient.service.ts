@@ -5,28 +5,35 @@ import {UserService} from './user.service';
 import {LocalStorage} from './localStorage.service';
 
 @Injectable()
-export class HttpClient{
-  private token_name = 'teamsuite_token';
+export class HttpClient {
+    private token_name = 'teamsuite_token';
 
-  constructor(private http: Http, private localStorage : LocalStorage){ }
-  
-  createAuthorizationHeader(headers:Headers){
-    headers.append('Authorization', 'Bearer ' + this.token);
-  }
-  
-  get(url) {
-    let headers = new Headers();
-    this.createAuthorizationHeader(headers);
-    return this.http.get(url, {headers: headers});
-  }
-  
-  post(url, data){
-    let headers = new Headers();
-    this.createAuthorizationHeader(headers);
-    return this.http.post(url, data, {headers: headers});
-  }
+    constructor(private http: Http, private localStorage: LocalStorage) {
+    }
 
-  get token(){
-      return this.localStorage.get(this.token_name);
-  }
+    createAuthorizationHeader(headers: Headers) {
+        headers.append('Authorization', 'Bearer ' + this.token);
+    }
+
+    get(url) {
+        let headers = new Headers();
+        this.createAuthorizationHeader(headers);
+        return this.http.get(url, {headers: headers});
+    }
+
+    post(url, data) {
+        let headers = new Headers();
+        this.createAuthorizationHeader(headers);
+        return this.http.post(url, data, {headers: headers});
+    }
+
+    patch(url, data) {
+        let headers = new Headers();
+        this.createAuthorizationHeader(headers);
+        return this.http.patch(url, data, {headers: headers});
+    }
+
+    get token() {
+        return this.localStorage.get(this.token_name);
+    }
 }

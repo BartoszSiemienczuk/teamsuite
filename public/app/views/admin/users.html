@@ -1,0 +1,165 @@
+<!--div *ngIf="loggedIn==false" class="ui middle aligned center aligned grid container">
+  <div class="eight wide column">
+    <h2 class="ui yellow header">
+      <div class="content">
+        Log-in to your account
+      </div>
+    </h2>
+    <form class="ui large form">
+      <div class="ui stacked segment">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input #login (keyup)="0" name="login" placeholder="Username" type="text">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input #password (keyup)="0" name="password" placeholder="Password" type="password">
+          </div>
+        </div>
+        <button type="button" (click)="submitLogin(login.value, password.value)" class="ui fluid large yellow submit button">Login</button>
+      </div>
+      {{login.value}} {{password.value}}
+      <div class="ui error message"></div>
+
+    </form>
+
+    <div class="ui message">
+      New to us? <a href="#">Sign Up</a>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loggedIn" class="ui middle aligned center aligned grid container">
+  <div class="eight wide column">
+    <h2 class="ui yellow header">
+      <div class="content">
+        Jesteś zalogowany jako {{user.login}}. <a class="ui basic button" (click)="submitLogout()">Wyloguj</a> <br/>
+      </div>
+    </h2>
+  </div>
+</div-->
+
+<div class="card" *ngIf="edit && editedUser">
+    <div class="header bg-blue">
+        <h2>
+            EDIT USER : {{editedUser.name}}
+        </h2>
+    </div>
+    <div class="body">
+        <form class="form-horizontal">
+            <div class="row clearfix">
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                    <label for="login">Login</label>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input [(ngModel)]="editedUser.login" id="login" name="login" class="form-control"
+                                   type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                    <label for="name">Name</label>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input [(ngModel)]="editedUser.name" id="name" name="name" class="form-control" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                    <label for="email">Email</label>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input [(ngModel)]="editedUser.email" id="email" name="email" class="form-control"
+                                   type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                    <label for="role">Permissions</label>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                    <div class="form-group">
+                        <select [(ngModel)]="editedUser.role" id="role" name="role" class="form-control show-tick">
+                            <option value="ADMIN">Administrator</option>
+                            <option value="LEADER">Team leader</option>
+                            <option value="USER">User</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 "></div>
+
+                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                    <a (click)="saveEdit()" class="btn btn-sm bg-blue">Zapisz</a>
+                    <a (click)="cancelEdit()" class="btn btn-sm bg-orange">Anuluj</a>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="header bg-blue">
+        <h2>
+            USERS LIST
+        </h2>
+    </div>
+    <div class="body">
+        <table class="users-table table table-bordered table-striped table-hover dataTable">
+            <thead>
+            <tr>
+                <th>Login</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+
+            <tfoot>
+            <tr>
+                <th>Login</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+            </tfoot>
+
+            <tbody>
+            <tr *ngFor="let user of users">
+                <th>{{user.login}}</th>
+                <th>{{user.name}}</th>
+                <th>{{user.email}}</th>
+                <th>{{user.role}}</th>
+                <th>
+                    <a class="btn bg-light-blue btn-xs waves-effect" (click)="editUser(user)">Edytuj</a>
+                    <a class="btn bg-orange btn-xs waves-effect">Usuń</a>
+                </th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

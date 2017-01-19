@@ -32,7 +32,7 @@
                 </li>
             </ul>
         </li>
-      
+
         <li>
             <a class="menu-toggle">
                 <i class="material-icons">bug_report</i>
@@ -51,8 +51,8 @@
                 </li>
             </ul>
         </li>
-      
-      
+
+
         <li>
             <a class="menu-toggle">
                 <i class="material-icons">settings</i>
@@ -64,20 +64,20 @@
                         <span>Your teams</span>
                     </a>
                 </li>
-              
+
                 <li *ngIf="isAdmin()">
-                    <a href="#">
+                    <a routerLink="/admin/users" routerLinkActive="active">
                         <span>Manage teams</span>
                     </a>
                 </li>
-              
+
                 <li *ngIf="isAdmin()">
-                    <a href="#">
+                    <a routerLink="/admin/users" routerLinkActive="active">
                         <span>Manage users</span>
                     </a>
                 </li>
             </ul>
-            
+
         </li>
     </ul>
 </div>
