@@ -6,7 +6,9 @@ let router = express.Router();
 
 router = express.Router();
 
+//noinspection TypeScriptValidateTypes
 router.use(bodyParser.json());
+//noinspection TypeScriptUnresolvedFunction,TypeScriptValidateTypes
 router.use(bodyParser.urlencoded({extended: true}));
 
 router.get('/', (req: express.Request, res: express.Response) => {
@@ -15,25 +17,51 @@ router.get('/', (req: express.Request, res: express.Response) => {
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
-    User.find((err, Users) => {
+    User.find().populate('teams').exec((err, Users) => {
         if (err) {
             res.json({error: err, info: "Error loading users"});
-        } else {
+        }
+        else {
             res.json(Users);
         }
     });
 });
 
 router.post('/', (req: express.Request, res: express.Response) => {
-    //TODO permissions
+    var role = req['user'].user.role;
+    if (req['loggedIn'] == false || role != "ADMIN") {
+        res.status(401).json({success: false, error: "Unauthorized."});
+        return;
+    }
+
     let user = new User({
         login: req.body.login,
         password: req.body.password,
         name: req.body.name,
-        email: req.body.email
+        email: req.body.email,
+        role: req.body.role,
     });
     user.save();
     res.status(200).json({success: 'true', login: user.login});
+});
+
+router.post('/delete/', (req: express.Request, res: express.Response) => {
+    var role = req['role']
+    if (req['loggedIn'] == false || role != "ADMIN") {
+        res.status(401).json({success: false, error: "Unauthorized."});
+        return;
+    }
+    let uid = req.body.user_id;
+
+    User.remove({_id: uid}, (err) => {
+        if (err) {
+            res.status(200).json({success: 'false', error: err});
+        }
+        else {
+            res.status(200).json({success: 'true'});
+        }
+    });
+
 });
 
 router.patch('/:login', (req: express.Request, res: express.Response) => {

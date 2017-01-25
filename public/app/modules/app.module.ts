@@ -15,6 +15,7 @@ import {UserprofileComponent} from '../components/userprofile.component';
 import {UserAdminComponent} from '../components/useradmin.component';
 
 import {UserService}    from '../services/user.service';
+import {TeamService}    from '../services/team.service';
 import {HttpClient}    from '../services/httpClient.service';
 import {LocalStorage}   from '../services/localStorage.service';
 import {NotificationsService} from '../services/notifications.service';
@@ -59,7 +60,8 @@ import 'rxjs/add/operator/toPromise';
         LoggedUserResolve,
         AllUsersResolve,
         appRoutingProviders,
-        ChatService
+        ChatService,
+        TeamService
     ],
     bootstrap: [
         AppComponent

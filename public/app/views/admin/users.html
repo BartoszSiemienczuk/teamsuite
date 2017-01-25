@@ -107,6 +107,55 @@
             </div>
 
             <div class="row clearfix">
+                <div class="col-lg-2 col-ms-2 col-sm-4 col-xs-5 form-control-label"><label>Teams</label></div>
+
+                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                    <div class="panel-group" id="user_teams_panel_group" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-col-blue">
+                            <div class="panel-heading" role="tab" id="user_teams_heading">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" href="#user_teams"
+                                       aria-expanded="false" aria-controls="user_teams">
+                                        <i class="material-icons">people</i> User's Teams <i class="material-icons">expand_more</i>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="user_teams" class="panel-collapse collapse" role="tabpanel"
+                                 aria-labelledby="user_teams">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="teams-list">
+                                                    <span class="label bg-light-blue">test <a
+                                                            (click)="removeTeam(123)"><i class="material-icons">delete_forever</i></a></span>
+                                                <span class="label bg-light-blue">test 2 <a
+                                                        (click)="removeTeam(124)"><i class="material-icons">delete_forever</i></a></span>
+                                                <span class="label bg-light-blue"
+                                                      *ngFor="let ut of editedUser.teams">{{ut.name}} <a
+                                                        (click)="removeTeam(ut._id)"><i class="material-icons">delete_forever</i></a></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8 col-xs-12">
+                                            <select class="form-control show-tick" name="selected_team"
+                                                    [(ngModel)]="selectedTeamId">
+                                                <option (keyup)="0" *ngFor="let t of teams"
+                                                        [ngValue]="t._id">{{t.name}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4 col-xs-12">
+                                            {{selectedTeamId}}
+                                            <a (click)="addTeam()" class="btn bg-blue">Assign team</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
                 <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 "></div>
 
                 <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
@@ -119,13 +168,110 @@
     </div>
 </div>
 
+<div class="card" *ngIf="add">
+    <div class="header bg-blue">
+        <h2>
+            ADD NEW USER
+        </h2>
+    </div>
+    <div class="body">
+        <form class="form-horizontal">
+            <div class="row clearfix">
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                    <label for="add_login">Login</label>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input [(ngModel)]="editedUser.login" id="add_login" name="login" class="form-control"
+                                   type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                    <label for="add_password">Password</label>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input [(ngModel)]="editedUser.password" id="add_password" name="password"
+                                   class="form-control"
+                                   type="password">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                    <label for="add_name">Name</label>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input [(ngModel)]="editedUser.name" id="add_name" name="name" class="form-control"
+                                   type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                    <label for="add_email">Email</label>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <input [(ngModel)]="editedUser.email" id="add_email" name="email" class="form-control"
+                                   type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                    <label for="add_role">Permissions</label>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                    <div class="form-group">
+                        <select [(ngModel)]="editedUser.role" id="add_role" name="role" class="form-control show-tick">
+                            <option value="ADMIN">Administrator</option>
+                            <option value="LEADER">Team leader</option>
+                            <option value="USER">User</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row clearfix">
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 "></div>
+
+                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                    <a (click)="saveAdd()" class="btn btn-sm bg-blue">Zapisz</a>
+                    <a (click)="cancelEdit()" class="btn btn-sm bg-orange">Anuluj</a>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
 <div class="card">
     <div class="header bg-blue">
         <h2>
             USERS LIST
         </h2>
+
     </div>
     <div class="body">
+
+        <a (click)="addUser()" class="btn bg-green btn-lg waves-effect" style="float:right;"><i
+                class="material-icons">add_box</i> Dodaj</a>
         <table class="users-table table table-bordered table-striped table-hover dataTable">
             <thead>
             <tr>
@@ -155,7 +301,7 @@
                 <th>{{user.role}}</th>
                 <th>
                     <a class="btn bg-light-blue btn-xs waves-effect" (click)="editUser(user)">Edytuj</a>
-                    <a class="btn bg-orange btn-xs waves-effect">Usuń</a>
+                    <a class="btn bg-orange btn-xs waves-effect" (click)="deleteUser(user._id)">Usuń</a>
                 </th>
             </tr>
             </tbody>

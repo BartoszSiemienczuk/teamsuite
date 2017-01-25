@@ -14,8 +14,6 @@ export class AllUsersResolve implements Resolve<User> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): User | Promise<User> {
         return this.userService.fetchAllUsers().toPromise().then(res => {
-            console.log("Fetched users = ");
-            console.log(res);
             return res;
         });
     }

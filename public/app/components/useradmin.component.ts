@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from '../services/user.service';
+import {TeamService} from '../services/team.service';
 import {ActivatedRoute} from "@angular/router";
 import {User} from "../models/user.model";
+import {Team} from "../models/team.model";
 
 @Component({
     selector: 'teamsuite-useradmin',
@@ -10,35 +12,87 @@ import {User} from "../models/user.model";
 
 export class UserAdminComponent implements OnInit {
     private users: User[];
+    private teams: Team[];
+    private selectedTeamId: string;
     private edit: boolean = false;
+    private add: boolean = false;
     private editedUser: User;
     private editedLogin: string;
 
 
-    constructor(private userService: UserService, private route: ActivatedRoute) {
+    constructor(private userService: UserService, private teamService: TeamService, private route: ActivatedRoute) {
 
     }
 
+    protected addUser(): void {
+        this.add = true;
+        this.edit = false;
+        this.editedUser = <User>{login: "", password: "", name: "", email: "", role: "USER"};
+    }
+
     protected editUser(u: User): void {
+        this.loadTeams();
+        this.add = false;
         this.edit = true;
         this.editedUser = u;
         this.editedLogin = u.login;
     }
 
     protected cancelEdit(): void {
+        this.add = false;
         this.edit = false;
         this.editedUser = null;
         this.editedLogin = null;
     }
 
+    private loadTeams(): void {
+        this.teamService.fetchAllTeams().toPromise().then(res => this.teams = res);
+    }
+
     protected saveEdit(): void {
-        console.log("Edit save");
         //TODO implement request to change role
         this.userService.sendUserEdit(this.editedLogin, this.editedUser.name, this.editedUser.login, this.editedUser.email).subscribe((res) => {
         });
-        this.edit = false;
-        this.editedUser = null;
-        this.editedLogin = null;
+        this.cancelEdit();
+        this.reloadUsers();
+    }
+
+    protected saveAdd(): void {
+        this.userService.sendUserAdd(this.editedUser.name, this.editedUser.login, this.editedUser.email, this.editedUser.password, this.editedUser.role).subscribe((res) => {
+
+        });
+        //todo get actual inserted user entity
+        console.log(this.editedUser);
+        this.users.push(this.editedUser);
+        this.cancelEdit();
+        this.reloadUsers();
+    }
+
+    public deleteUser(user_id: string): void {
+        if (confirm("Are you sure?")) {
+            console.log("Sure");
+            this.userService.deleteUser(user_id).subscribe();
+        }
+        this.cancelEdit();
+        this.reloadUsers();
+    }
+
+    public addTeam(): void {
+        this.teamService.assignTeam(this.editedUser._id, this.selectedTeamId).subscribe();
+
+        //TODO update team list
+    }
+
+    public removeTeam(teamid: string): void {
+        this.teamService.unassignTeam(this.editedUser._id, teamid).subscribe();
+
+        //TODO update team list
+    }
+
+    private reloadUsers() {
+        this.userService.fetchAllUsers().toPromise().then(res => {
+            this.users = res;
+        });
     }
 
     ngOnInit(): void {

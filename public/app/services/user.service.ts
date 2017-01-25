@@ -79,6 +79,39 @@ export class UserService {
         }
     }
 
+
+    sendUserAdd(name: string, login: string, email: string, password: string, role: string) {
+        if (this.isLogged && this.isAdmin()) {
+            return this.httpClient.post('/api/v1/users/', {
+                name: name,
+                email: email,
+                login: login,
+                password: password,
+                role: role
+            }).map(res => res.json()).map(res => {
+                if (res.success) {
+                    this.notifications.add("success", "User was created successfully.");
+                } else {
+                    this.notifications.add("danger", "There was an error creating user: " + res.error + ". Please try again.");
+                }
+            });
+        } else {
+            this.notifications.add("danger", "Insufficient permissions.")
+        }
+    }
+
+    deleteUser(user_id: string) {
+        if (this.isLogged && this.isAdmin()) {
+            return this.httpClient.post('/api/v1/users/delete', {user_id: user_id}).map(res => res.json()).map(res => {
+                if (res.success) {
+                    this.notifications.add("success", "User was deleted successfully.");
+                } else {
+                    this.notifications.add("danger", "Error deleting user : " + res.error + ". Try again later.");
+                }
+            });
+        }
+    }
+
     sendLogout() {
         this.user = null;
         this.isLogged = false;
@@ -156,6 +189,5 @@ export class UserService {
     set activeTeam(team) {
         this.selectedTeam = team;
     }
-
 
 }

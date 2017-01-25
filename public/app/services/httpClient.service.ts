@@ -33,6 +33,12 @@ export class HttpClient {
         return this.http.patch(url, data, {headers: headers});
     }
 
+    delete(url) {
+        let headers = new Headers();
+        this.createAuthorizationHeader(headers);
+        return this.http.delete(url, {headers: headers});
+    }
+
     get token() {
         return this.localStorage.get(this.token_name);
     }
