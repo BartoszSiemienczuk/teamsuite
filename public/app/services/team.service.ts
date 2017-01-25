@@ -40,4 +40,24 @@ export class TeamService {
             }
         });
     }
+
+    addTeam(teamname: string) {
+        return this.httpClient.post('/api/v1/teams/', {name: teamname}).map(res=>res.json()).map(res => {
+            if (res.success) {
+                this.notifications.add("success", "Team was created successfully.");
+            } else {
+                this.notifications.add("danger", "There was an error creating team: " + res.error + ". Please try again.");
+            }
+        });
+    }
+
+    deleteTeam(team_id: string){
+        return this.httpClient.post('/api/v1/teams/delete', {team_id: team_id}).map(res=>res.json()).map(res => {
+            if (res.success) {
+                this.notifications.add("success", "Team was deleted successfully.");
+            } else {
+                this.notifications.add("danger", "There was an error deleting team: " + res.error + ". Please try again.");
+            }
+        });
+    }
 }
