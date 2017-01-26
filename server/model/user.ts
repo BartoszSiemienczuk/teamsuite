@@ -9,6 +9,7 @@ interface IUser{
   password:string;
   role:string;  
   teams:string[];
+  notes:string[];
 }
 
 interface IUserModel extends IUser, mongoose.Document{
@@ -21,7 +22,8 @@ var userSchema = new mongoose.Schema({
   name: {type: String, required: true},
   email: {type: String, required: true},
   role: {type: String, enum:['ADMIN','LEADER','USER'],default:'USER',required: false},
-  teams: [{type:mongoose.Schema.Types.ObjectId, ref:'Team'}]
+  teams: [{type:mongoose.Schema.Types.ObjectId, ref:'Team'}],
+  notes: [{type:String}]
 });
 
 userSchema.pre('save', function(next) {
@@ -41,6 +43,17 @@ userSchema.methods.comparePassword = function(inputPassword, callback) {
     }
     callback(null, result);
   });
-}
+};
+
+userSchema.methods.addNote = function (noteText) {
+  this.notes.push(noteText);
+  this.save();
+};
+
+userSchema.methods.removeNote = function (noteText) {
+  this.notes = this.notes.filter(value => value!=noteText);
+  this.save();
+};
+
 var user = mongoose.model<IUserModel>("User", userSchema);
 export { user as User };

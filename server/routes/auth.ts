@@ -15,7 +15,6 @@ router.use(bodyParser.urlencoded({extended:true}));
 router.use(expressJwt({secret : secret, credentialsRequired: false}).unless({path : ['/auth/login']}));
 
 router.post('/login', (req : express.Request, res : express.Response) => {
-  console.log("LOGIN REQUEST");
   User.findOne({login: req.body.login}).populate('teams').exec((err, user) => {
     if(!user){
       res.status(200).json({error:"bad_login", success: false, token: null});

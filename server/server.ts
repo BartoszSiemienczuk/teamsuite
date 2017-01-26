@@ -45,7 +45,7 @@ export class Server {
         this.app_.use('/api/v1/teams', teamRoutes);
 
         this.app_.get('/*', (req: express.Request, res: express.Response) => {
-            res.sendFile(path.resolve(__dirname, '../../public/index.html'));
+            res.status(404).json({success:false, error:"No such URL"});
         });
 
     }

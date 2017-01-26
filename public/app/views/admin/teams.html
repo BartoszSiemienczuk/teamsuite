@@ -1,0 +1,58 @@
+
+
+<div class="card">
+    <div class="header bg-blue">
+        <h2>
+            TEAMS LIST
+        </h2>
+
+    </div>
+    <div class="body">
+        <table class="teams-table table-bordered table-striped table-hover dataTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Members count</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+
+            <tfoot>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Members count</th>
+                <th>Action</th>
+            </tr>
+            </tfoot>
+
+            <tbody>
+            <tr *ngFor="let team of teams">
+                <th>{{team._id}}</th>
+                <th>{{team.name}}</th>
+                <th>{{team.users.length}}</th>
+                <th>
+                    <a class="btn bg-light-blue btn-xs waves-effect" (click)="editTeam(team)">Edytuj / Członkowie</a>
+                    <a class="btn bg-orange btn-xs waves-effect" (click)="deleteTeam(team)">Usuń</a>
+                </th>
+            </tr>
+            </tbody>
+        </table>
+
+        <br/>
+        <h2><strong>Add a new team</strong></h2>
+        <div class="row clearfix">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <div class="form-line">
+                        <input class="form-control" type="text" [(ngModel)]="newTeam.name" name="new_team_name"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <a class="btn btn-primary waves-effect" (click)="addTeam(newTeam.name)"><i class="material-icons">add_circle</i> Add team</a>
+            </div>
+        </div>
+    </div>
+</div>

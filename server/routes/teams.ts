@@ -27,6 +27,34 @@ router.get('/', (req: express.Request, res: express.Response) => {
     });
 });
 
+router.get('/users/:team_id', (req: express.Request, res: express.Response) => {
+    if (req['loggedIn'] == false) {
+        res.status(401).json({success: false, error: "Unauthorized."});
+        return;
+    }
+    var teamid = req.params.team_id;
+    Team.findOne({_id: teamid}).populate("users", "_id login name").exec((err, team)=>{
+        if(err){
+            res.status(200).json({success: false, error: "DB error."});
+            return;
+        }
+        res.status(200).json(team.users);
+    });
+});
+
+router.post('/', (req: express.Request, res: express.Response) => {
+    if(req['role']!="ADMIN" || req['loggedIn'] == false){
+        res.status(401).json({success: false, error: "Unauthorized."});
+        return;
+    }
+    let name = req.body.name;
+
+    let team = new Team({name:name});
+    team.save();
+
+    res.status(200).json({success: 'true', name: team.name});
+});
+
 router.post('/assign', (req: express.Request, res: express.Response) => {
     if (req['loggedIn'] == false || req['role'] != "ADMIN") {
         res.status(401).json({success: false, error: "Unauthorized."});
@@ -93,6 +121,27 @@ router.post('/unassign', (req: express.Request, res: express.Response) => {
                 }
             });
         }
+    });
+});
+
+
+router.post('/delete', (req: express.Request, res: express.Response) => {
+    if (req['loggedIn'] == false || req['role'] != "ADMIN") {
+        res.status(401).json({success: false, error: "Unauthorized."});
+        return;
+    }
+    var team_id = req.body.team_id;
+    Team.findOne({_id:team_id}, (err, team)=>{
+        if(err || team==null){
+            res.status(200).json({success: false, error: "DB error."});
+            return;
+        }
+        if(team.users.length>0){
+            res.status(200).json({success: false, error: "Can't delete non-empty team."});
+            return;
+        }
+        team.remove();
+        res.status(200).json({success: true, error: null});
     });
 });
 

@@ -64,25 +64,61 @@ router.post('/delete/', (req: express.Request, res: express.Response) => {
 
 });
 
-router.patch('/:login', (req: express.Request, res: express.Response) => {
-    var role = req['user'].user.role;
-    if (req['loggedIn'] == false || role != "ADMIN") {
+router.get('/notes', (req: express.Request, res: express.Response) => {
+    if (req['loggedIn'] == false ) {
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
 
-    User.findOne({login: req.params['login']}, (err, user) => {
-        if (err) {
-            res.status(200).json({success: false, error: "Error loading user."});
+    console.log("DBG1:"+req['user_id']);
+
+    User.findOne({_id:req['user_id']}, (err, user)=>{
+        if(err){
+            res.status(200).json({success: false, error: "Error loading user notes."});
             return;
         } else {
-            if (req.body.name) user.name = req.body.name;
-            if (req.body.login) user.login = req.body.login;
-            if (req.body.email) user.email = req.body.email;
-            if (req.body.password) user.password = req.body.password;
-            user.save();
-            res.status(200).json({success: true, error: null, login: user.login});
+            res.status(200).json({success: true, login: user.login, notes: user.notes});
             return;
+        }
+    });
+});
+
+router.post('/notes', (req: express.Request, res: express.Response) => {
+    if (req['loggedIn'] == false ) {
+        res.status(401).json({success: false, error: "Unauthorized."});
+        return;
+    }
+
+    let uid = req['user'].user._id;
+    let newNote = req.body.note;
+
+    User.findOne({_id:uid}, (err, user)=>{
+        if(err){
+            res.status(200).json({success: false, error: "Error loading user notes."});
+            return;
+        } else {
+            user.notes.push(newNote);
+            user.save();
+        }
+    });
+});
+
+router.post('/notes/delete', (req: express.Request, res: express.Response) => {
+    if (req['loggedIn'] == false ) {
+        res.status(401).json({success: false, error: "Unauthorized."});
+        return;
+    }
+
+    let uid = req['user'].user._id;
+    let deletedNote = req.body.note;
+
+    User.findOne({_id:uid}, (err, user)=>{
+        if(err){
+            res.status(200).json({success: false, error: "Error loading user notes."});
+            return;
+        } else {
+            user.notes = user.notes.filter(note => note!=deletedNote);
+            user.save();
         }
     });
 });
@@ -104,6 +140,29 @@ router.post('/role', (req: express.Request, res: express.Response) => {
             return;
         } else {
             user.role = req.body.role;
+            user.save();
+            res.status(200).json({success: true, error: null, login: user.login});
+            return;
+        }
+    });
+});
+
+router.patch('/:login', (req: express.Request, res: express.Response) => {
+    var role = req['user'].user.role;
+    if (req['loggedIn'] == false || role != "ADMIN") {
+        res.status(401).json({success: false, error: "Unauthorized."});
+        return;
+    }
+
+    User.findOne({login: req.params['login']}, (err, user) => {
+        if (err) {
+            res.status(200).json({success: false, error: "Error loading user."});
+            return;
+        } else {
+            if (req.body.name) user.name = req.body.name;
+            if (req.body.login) user.login = req.body.login;
+            if (req.body.email) user.email = req.body.email;
+            if (req.body.password) user.password = req.body.password;
             user.save();
             res.status(200).json({success: true, error: null, login: user.login});
             return;

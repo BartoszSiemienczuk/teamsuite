@@ -79,14 +79,19 @@ export class UserAdminComponent implements OnInit {
 
     public addTeam(): void {
         this.teamService.assignTeam(this.editedUser._id, this.selectedTeamId).subscribe();
-
-        //TODO update team list
+        console.log(this.teams);
+        console.log("Searching for " + this.selectedTeamId);
+        let team = this.teams.reduce((result, current)=>{
+            console.log("Checking " + current._id);
+            return current._id==this.selectedTeamId ? current : result
+        });
+        console.log(team);
+        this.editedUser.teams.push(<Team>{_id:this.selectedTeamId, name:team.name});
     }
 
     public removeTeam(teamid: string): void {
         this.teamService.unassignTeam(this.editedUser._id, teamid).subscribe();
-
-        //TODO update team list
+        this.editedUser.teams = this.editedUser.teams.filter((item) => {return item._id!=teamid;});
     }
 
     private reloadUsers() {

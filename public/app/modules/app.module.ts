@@ -13,6 +13,7 @@ import {SidebarComponent} from '../components/sidebar.component';
 import {ChatComponent} from '../components/chat.component';
 import {UserprofileComponent} from '../components/userprofile.component';
 import {UserAdminComponent} from '../components/useradmin.component';
+import {TeamAdminComponent} from '../components/teamadmin.component';
 
 import {UserService}    from '../services/user.service';
 import {TeamService}    from '../services/team.service';
@@ -25,6 +26,7 @@ import {ChatService} from '../services/chat.service';
 
 import {LoggedUserResolve} from '../services/resolvers/logged-user.resolve';
 import {AllUsersResolve} from '../services/resolvers/all-users.resolve';
+import {AllTeamsResolve} from '../services/resolvers/all-teams.resolve';
 
 import {routing, appRoutingProviders} from '../routing/app.routing';
 import 'rxjs/add/operator/map';
@@ -48,7 +50,8 @@ import 'rxjs/add/operator/toPromise';
         UserinfoComponent,
         UserprofileComponent,
         ChatComponent,
-        UserAdminComponent
+        UserAdminComponent,
+        TeamAdminComponent
     ],
     providers: [
         UserService,
@@ -59,6 +62,7 @@ import 'rxjs/add/operator/toPromise';
         AdminGuard,
         LoggedUserResolve,
         AllUsersResolve,
+        AllTeamsResolve,
         appRoutingProviders,
         ChatService,
         TeamService

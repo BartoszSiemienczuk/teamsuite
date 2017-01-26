@@ -1,47 +1,3 @@
-<!--div *ngIf="loggedIn==false" class="ui middle aligned center aligned grid container">
-  <div class="eight wide column">
-    <h2 class="ui yellow header">
-      <div class="content">
-        Log-in to your account
-      </div>
-    </h2>
-    <form class="ui large form">
-      <div class="ui stacked segment">
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="user icon"></i>
-            <input #login (keyup)="0" name="login" placeholder="Username" type="text">
-          </div>
-        </div>
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="lock icon"></i>
-            <input #password (keyup)="0" name="password" placeholder="Password" type="password">
-          </div>
-        </div>
-        <button type="button" (click)="submitLogin(login.value, password.value)" class="ui fluid large yellow submit button">Login</button>
-      </div>
-      {{login.value}} {{password.value}}
-      <div class="ui error message"></div>
-
-    </form>
-
-    <div class="ui message">
-      New to us? <a href="#">Sign Up</a>
-    </div>
-  </div>
-</div>
-
-<div *ngIf="loggedIn" class="ui middle aligned center aligned grid container">
-  <div class="eight wide column">
-    <h2 class="ui yellow header">
-      <div class="content">
-        Jesteś zalogowany jako {{user.login}}. <a class="ui basic button" (click)="submitLogout()">Wyloguj</a> <br/>
-      </div>
-    </h2>
-  </div>
-</div-->
-
 <div class="card" *ngIf="edit && editedUser">
     <div class="header bg-blue">
         <h2>
@@ -126,13 +82,10 @@
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <div class="teams-list">
-                                                    <span class="label bg-light-blue">test <a
-                                                            (click)="removeTeam(123)"><i class="material-icons">delete_forever</i></a></span>
-                                                <span class="label bg-light-blue">test 2 <a
-                                                        (click)="removeTeam(124)"><i class="material-icons">delete_forever</i></a></span>
                                                 <span class="label bg-light-blue"
-                                                      *ngFor="let ut of editedUser.teams">{{ut.name}} <a
-                                                        (click)="removeTeam(ut._id)"><i class="material-icons">delete_forever</i></a></span>
+                                                      *ngFor="let ut of editedUser.teams">
+                                                    {{ut.name}}
+                                                    <a (click)="removeTeam(ut._id)"><i class="material-icons">delete_forever</i></a></span>
                                             </div>
                                         </div>
                                         <div class="col-sm-8 col-xs-12">
@@ -144,7 +97,6 @@
                                             </select>
                                         </div>
                                         <div class="col-sm-4 col-xs-12">
-                                            {{selectedTeamId}}
                                             <a (click)="addTeam()" class="btn bg-blue">Assign team</a>
                                         </div>
                                     </div>
