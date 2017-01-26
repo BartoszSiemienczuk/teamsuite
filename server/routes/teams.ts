@@ -28,19 +28,11 @@ router.get('/', (req: express.Request, res: express.Response) => {
 });
 
 router.get('/users/:team_id', (req: express.Request, res: express.Response) => {
-<<<<<<< HEAD
     if (res.locals.loggedIn == false) {
-=======
-    if (req['loggedIn'] == false) {
->>>>>>> 53f6eb43441c0a418693c4ca772ef799f816be86
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
     var teamid = req.params.team_id;
-<<<<<<< HEAD
-=======
-    console.log(teamid);
->>>>>>> 53f6eb43441c0a418693c4ca772ef799f816be86
     Team.findOne({_id: teamid}).populate("users", "_id login name").exec((err, team)=>{
         if(err){
             res.status(200).json({success: false, error: "DB error."});
@@ -51,11 +43,7 @@ router.get('/users/:team_id', (req: express.Request, res: express.Response) => {
 });
 
 router.post('/', (req: express.Request, res: express.Response) => {
-<<<<<<< HEAD
     if(res.locals.role!="ADMIN" || res.locals.loggedIn == false){
-=======
-    if(req['role']!="ADMIN" || req['loggedIn'] == false){
->>>>>>> 53f6eb43441c0a418693c4ca772ef799f816be86
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
@@ -138,11 +126,7 @@ router.post('/unassign', (req: express.Request, res: express.Response) => {
 
 
 router.post('/delete', (req: express.Request, res: express.Response) => {
-<<<<<<< HEAD
     if (res.locals.loggedIn == false || res.locals.role != "ADMIN") {
-=======
-    if (req['loggedIn'] == false || req['role'] != "ADMIN") {
->>>>>>> 53f6eb43441c0a418693c4ca772ef799f816be86
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
