@@ -33,8 +33,8 @@ router.post('/login', (req : express.Request, res : express.Response) => {
 });
 
 router.get('/user', (req, res) => {
-  if(req['loggedIn']){
-    let uid = req['user'].user._id;
+  if(res.locals.loggedIn){
+    let uid = res.locals.user.user._id;
     User.findOne({_id: uid}).select('_id login name teams role email').populate('teams').exec((err, usr) => {
       let token_ = jwt.sign({user:usr}, secret, {expiresIn: Config.tokenExpiration});
       res.status(200).json({user:usr, token:token_});
@@ -45,8 +45,8 @@ router.get('/user', (req, res) => {
 });
 
 router.post('/user', (req, res) => {
-  if(req['loggedIn']){
-    let uid = req['user'].user._id;
+  if(res.locals.loggedIn){
+    let uid = res.locals.user.user._id;
     User.findOne({_id:uid}, (err, usr) => {
       if(err){
         res.status(200).json({error:'Error updating DB.', success: false});

@@ -13,7 +13,7 @@ router.use(bodyParser.urlencoded({extended: true}));
 
 router.get('/', (req: express.Request, res: express.Response) => {
     //TODO permissions
-    if (req['loggedIn'] == false) {
+    if (res.locals.loggedIn == false) {
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
@@ -28,8 +28,8 @@ router.get('/', (req: express.Request, res: express.Response) => {
 });
 
 router.post('/', (req: express.Request, res: express.Response) => {
-    var role = req['user'].user.role;
-    if (req['loggedIn'] == false || role != "ADMIN") {
+    var role = res.locals.user.user.role;
+    if (res.locals.loggedIn == false || role != "ADMIN") {
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
@@ -46,8 +46,8 @@ router.post('/', (req: express.Request, res: express.Response) => {
 });
 
 router.post('/delete/', (req: express.Request, res: express.Response) => {
-    var role = req['role']
-    if (req['loggedIn'] == false || role != "ADMIN") {
+    var role = res.locals.role
+    if (res.locals.loggedIn == false || role != "ADMIN") {
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
@@ -65,14 +65,11 @@ router.post('/delete/', (req: express.Request, res: express.Response) => {
 });
 
 router.get('/notes', (req: express.Request, res: express.Response) => {
-    if (req['loggedIn'] == false ) {
+    if (res.locals.loggedIn == false ) {
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
-
-    console.log("DBG1:"+req['user_id']);
-
-    User.findOne({_id:req['user_id']}, (err, user)=>{
+    User.findOne({_id:res.locals.user_id}, (err, user)=>{
         if(err){
             res.status(200).json({success: false, error: "Error loading user notes."});
             return;
@@ -84,12 +81,12 @@ router.get('/notes', (req: express.Request, res: express.Response) => {
 });
 
 router.post('/notes', (req: express.Request, res: express.Response) => {
-    if (req['loggedIn'] == false ) {
+    if (res.locals.loggedIn == false ) {
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
 
-    let uid = req['user'].user._id;
+    let uid = res.locals.user.user._id;
     let newNote = req.body.note;
 
     User.findOne({_id:uid}, (err, user)=>{
@@ -99,17 +96,18 @@ router.post('/notes', (req: express.Request, res: express.Response) => {
         } else {
             user.notes.push(newNote);
             user.save();
+            res.status(200).json({success: true, login:user.login, note:newNote});
         }
     });
 });
 
 router.post('/notes/delete', (req: express.Request, res: express.Response) => {
-    if (req['loggedIn'] == false ) {
+    if (res.locals.loggedIn == false ) {
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
 
-    let uid = req['user'].user._id;
+    let uid = res.locals.user.user._id;
     let deletedNote = req.body.note;
 
     User.findOne({_id:uid}, (err, user)=>{
@@ -119,6 +117,7 @@ router.post('/notes/delete', (req: express.Request, res: express.Response) => {
         } else {
             user.notes = user.notes.filter(note => note!=deletedNote);
             user.save();
+            res.status(200).json({success: true, login:user.login});
         }
     });
 });
@@ -126,7 +125,7 @@ router.post('/notes/delete', (req: express.Request, res: express.Response) => {
 router.post('/role', (req: express.Request, res: express.Response) => {
     var uid = req.body.user_id;
     var role = req.body.role;
-    if (req['loggedIn'] == false || req['role'] != "ADMIN") {
+    if (res.locals.loggedIn == false || res.locals.role != "ADMIN") {
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
@@ -148,8 +147,8 @@ router.post('/role', (req: express.Request, res: express.Response) => {
 });
 
 router.patch('/:login', (req: express.Request, res: express.Response) => {
-    var role = req['user'].user.role;
-    if (req['loggedIn'] == false || role != "ADMIN") {
+    var role = res.locals.user.user.role;
+    if (res.locals.loggedIn == false || role != "ADMIN") {
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }

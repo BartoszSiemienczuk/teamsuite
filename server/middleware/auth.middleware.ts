@@ -10,27 +10,26 @@ var middleware = function (req, res, next) {
         let jwtoken = token.split(" ")[1];
         jwt.verify(jwtoken, Config.secret, (error, decoded) => {
             if (error) {
-                req['loggedIn'] = false;
-                req['user'] = {};
-                req['role'] = "";
+                res.locals.loggedIn = false;
+                res.locals.user = {};
+                res.locals.role = "";
                 next();
             } else {
                 //good, authenticated request
-                req['loggedIn'] = true;
                 delete decoded.user.password;
-                req['user'] = decoded;
-                req['user_id'] = decoded.user._id;
-                req['role'] = req['user'].user.role;
+
+                res.locals.loggedIn = true;
                 res.locals.user = decoded;
-                res.locals.role = decoded.user.role;
                 res.locals.user_id = decoded.user._id;
+                res.locals.role = res.locals.user.user.role;
+
                 next();
             }
         });
     } else {
-        req['loggedIn'] = false;
-        req['user'] = {};
-        req['role'] = "";
+        res.locals.loggedIn = false;
+        res.locals.user = {};
+        res.locals.role = "";
         next();
     }
 };

@@ -14,7 +14,7 @@ router.use(bodyParser.urlencoded({extended: true}));
 //TODO implement roles conditions
 
 router.get('/', (req: express.Request, res: express.Response) => {
-    if (req['loggedIn'] == false) {
+    if (res.locals.loggedIn == false) {
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
@@ -28,7 +28,7 @@ router.get('/', (req: express.Request, res: express.Response) => {
 });
 
 router.get('/users/:team_id', (req: express.Request, res: express.Response) => {
-    if (req['loggedIn'] == false) {
+    if (res.locals.loggedIn == false) {
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
@@ -43,7 +43,7 @@ router.get('/users/:team_id', (req: express.Request, res: express.Response) => {
 });
 
 router.post('/', (req: express.Request, res: express.Response) => {
-    if(req['role']!="ADMIN" || req['loggedIn'] == false){
+    if(res.locals.role!="ADMIN" || res.locals.loggedIn == false){
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
@@ -56,7 +56,7 @@ router.post('/', (req: express.Request, res: express.Response) => {
 });
 
 router.post('/assign', (req: express.Request, res: express.Response) => {
-    if (req['loggedIn'] == false || req['role'] != "ADMIN") {
+    if (res.locals.loggedIn == false || res.locals.role != "ADMIN") {
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
@@ -90,7 +90,7 @@ router.post('/assign', (req: express.Request, res: express.Response) => {
 });
 
 router.post('/unassign', (req: express.Request, res: express.Response) => {
-    if (req['loggedIn'] == false || req['role'] != "ADMIN") {
+    if (res.locals.loggedIn == false || res.locals.role != "ADMIN") {
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
@@ -126,7 +126,7 @@ router.post('/unassign', (req: express.Request, res: express.Response) => {
 
 
 router.post('/delete', (req: express.Request, res: express.Response) => {
-    if (req['loggedIn'] == false || req['role'] != "ADMIN") {
+    if (res.locals.loggedIn == false || res.locals.role != "ADMIN") {
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
