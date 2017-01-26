@@ -14,6 +14,7 @@ import {ChatComponent} from '../components/chat.component';
 import {UserprofileComponent} from '../components/userprofile.component';
 import {UserAdminComponent} from '../components/useradmin.component';
 import {TeamAdminComponent} from '../components/teamadmin.component';
+import {NotesComponent} from '../components/notes.component';
 
 import {UserService}    from '../services/user.service';
 import {TeamService}    from '../services/team.service';
@@ -51,7 +52,8 @@ import 'rxjs/add/operator/toPromise';
         UserprofileComponent,
         ChatComponent,
         UserAdminComponent,
-        TeamAdminComponent
+        TeamAdminComponent,
+        NotesComponent
     ],
     providers: [
         UserService,

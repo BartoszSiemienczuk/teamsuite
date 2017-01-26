@@ -11,10 +11,12 @@ import {AdminGuard} from "../services/admin-guard.service";
 import {AllUsersResolve} from "../services/resolvers/all-users.resolve";
 import {AllTeamsResolve} from "../services/resolvers/all-teams.resolve";
 import {TeamAdminComponent} from "../components/teamadmin.component";
+import {NotesComponent} from "../components/notes.component";
 
 
 const appRoutes: Routes = [
     {path: 'chat', component: ChatComponent, canActivate: [AuthGuard]},
+    {path: 'notes', component: NotesComponent, canActivate: [AuthGuard]},
     {path: 'profile', component: UserprofileComponent, canActivate: [AuthGuard], resolve: {user: LoggedUserResolve}},
     {path: 'login', component: LoginComponent},
 

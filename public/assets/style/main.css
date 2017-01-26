@@ -1,4 +1,6 @@
-/* Top bar dropdown fix */
+@import url('https://fonts.googleapis.com/css?family=Kalam');
+
+    /* Top bar dropdown fix */
 .dropdown-menu ul.menu {
   list-style: none;
 }
@@ -85,6 +87,16 @@
 
 .chat-box .chat-container .message-input-container > .input-group a {
   cursor: pointer;
+}
+
+/* =============================================
+=================== NOTES =================
+==============================================*/
+.card.note {
+  font-family: "Kalam", "Times New Roman", sans-serif;
+}
+.card.note .dropdown a{
+  cursor:pointer;
 }
 
 /* =============================================

@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import {User, Team} from '../model';
+import {User, Team, Todo} from '../model';
 
 let router = express.Router();
 
@@ -12,6 +12,7 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended: true}));
 
 //TODO implement roles conditions
+//TODO implement team checks - only for users teams
 
 router.get('/', (req: express.Request, res: express.Response) => {
     if (res.locals.loggedIn == false) {
@@ -25,6 +26,19 @@ router.get('/', (req: express.Request, res: express.Response) => {
             res.json(Teams);
         }
     });
+});
+
+router.post('/', (req: express.Request, res: express.Response) => {
+    if(res.locals.role!="ADMIN" || res.locals.loggedIn == false){
+        res.status(401).json({success: false, error: "Unauthorized."});
+        return;
+    }
+    let name = req.body.name;
+
+    let team = new Team({name:name});
+    team.save();
+
+    res.status(200).json({success: 'true', name: team.name});
 });
 
 router.get('/users/:team_id', (req: express.Request, res: express.Response) => {
@@ -42,17 +56,87 @@ router.get('/users/:team_id', (req: express.Request, res: express.Response) => {
     });
 });
 
-router.post('/', (req: express.Request, res: express.Response) => {
-    if(res.locals.role!="ADMIN" || res.locals.loggedIn == false){
+router.get('/todos/team/:team_id', (req: express.Request, res: express.Response) => {
+    if (res.locals.loggedIn == false) {
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
-    let name = req.body.name;
+    Todo.find({team: req.params.team_id}, (err, todos) => {
+        if(err){
+            res.status(200).json({success: false, error: "DB error."});
+            return;
+        }
+        res.status(200).json({success: true, todos: todos});
+        return;
+    });
+});
 
-    let team = new Team({name:name});
-    team.save();
+router.post('/todos/team/:team_id', (req: express.Request, res: express.Response) => {
+    if (res.locals.loggedIn == false) {
+        res.status(401).json({success: false, error: "Unauthorized."});
+        return;
+    }
+    let todo = new Todo({
+        team: req.params.team_id,
+        name: req.body.name,
+        tasks: []
+    });
 
-    res.status(200).json({success: 'true', name: team.name});
+    todo.save();
+    res.status(200).json({success:true, todo:todo.name});
+});
+
+router.patch('/todos/:todo_id/task/:task_id', (req: express.Request, res: express.Response) => {
+    if (res.locals.loggedIn == false) {
+        res.status(401).json({success: false, error: "Unauthorized."});
+        return;
+    }
+    Todo.findOne({_id: req.params.todo_id}, (err, todo) => {
+        if(err){
+            res.status(200).json({success: false, error: "DB error."});
+            return;
+        }
+
+        let task = todo.tasks.id(req.params.task_id);
+        task.done = !task.done;
+
+        todo.save();
+
+        res.status(200).json({success: true, task: task.text, done: task.done});
+        return;
+    });
+});
+
+router.post('/todos/:todo_id/task', (req: express.Request, res: express.Response) => {
+    if (res.locals.loggedIn == false) {
+        res.status(401).json({success: false, error: "Unauthorized."});
+        return;
+    }
+    Todo.findOne({_id: req.params.todo_id}, (err, todo) => {
+        if(err){
+            res.status(200).json({success: false, error: "DB error."});
+            return;
+        }
+        todo.tasks.push({text: req.body.text, done: false});
+        todo.save();
+        res.status(200).json({success:true, todo:todo.name, task: req.body.text});
+        return;
+    });
+});
+
+router.post('/todos/:todo_id/delete', (req: express.Request, res: express.Response) => {
+    if (res.locals.loggedIn == false) {
+        res.status(401).json({success: false, error: "Unauthorized."});
+        return;
+    }
+    Todo.remove({_id: req.params.todo_id}, (err, removed) => {
+        if(err){
+            res.status(200).json({success: false, error: "DB error."});
+            return;
+        }
+        res.status(200).json({success:true});
+        return;
+    });
 });
 
 router.post('/assign', (req: express.Request, res: express.Response) => {
@@ -62,8 +146,6 @@ router.post('/assign', (req: express.Request, res: express.Response) => {
     }
     let uid = req.body.user_id;
     let teamid = req.body.team_id;
-    console.log("uid=" + uid);
-    console.log("Teamid=" + teamid);
     User.findOne({_id: uid}, (err, user) => {
         if (err) {
             res.status(200).json({success: false, error: "No such user exception."});
@@ -96,9 +178,7 @@ router.post('/unassign', (req: express.Request, res: express.Response) => {
     }
     let uid = req.body.user_id;
     let teamid = req.body.team_id;
-    console.log("uid=" + uid);
 
-    console.log("Teamid=" + teamid);
     User.findOne({_id: uid}, (err, user) => {
         if (err) {
             res.status(200).json({success: false, error: "No such user exception."});

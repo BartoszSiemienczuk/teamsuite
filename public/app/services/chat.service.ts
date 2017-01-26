@@ -21,7 +21,7 @@ export class ChatService {
   
   getMessages(){
     let observe = new Observable( observer => {
-      this.socket = ioClient.connect("http://port-8080.teamsuite-mean--siemienczukbartosz645538.codeanyapp.com/sockets/chat");
+      this.socket = ioClient.connect("/sockets/chat");
       var usr : any = this.userService.userData;
       usr.room = "room_"+this.userService.activeTeam._id;
       this.socket.emit("login", usr);
@@ -45,7 +45,7 @@ export class ChatService {
       };
     })
     return observe;
-  }
+  };
   
   
   

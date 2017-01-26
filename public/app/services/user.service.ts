@@ -112,6 +112,45 @@ export class UserService {
         }
     }
 
+    getNotes(){
+        if (!this.isLogged) {
+            this.notifications.add("danger", "You must be logged in.");
+            return;
+        } else {
+            return this.httpClient.get('/api/v1/users/notes').map(res=>res.json());
+        }
+    }
+
+    addNote(text: string){
+        if (!this.isLogged) {
+            this.notifications.add("danger", "You must be logged in.");
+            return;
+        } else {
+            return this.httpClient.post('/api/v1/users/notes', {note: text}).map(res=>res.json()).map(res=>{
+                if (res.success) {
+                    this.notifications.add("success", "Note was created successfully.");
+                } else {
+                    this.notifications.add("danger", "Error adding note: " + res.error + ". Try again later.");
+                }
+            });
+        }
+    }
+
+    deleteNote(text: string){
+        if (!this.isLogged) {
+            this.notifications.add("danger", "You must be logged in.");
+            return;
+        } else {
+            return this.httpClient.post('/api/v1/users/notes/delete', {note: text}).map(res=>res.json()).map(res=>{
+                if (res.success) {
+                    this.notifications.add("success", "Note was deleted successfully.");
+                } else {
+                    this.notifications.add("danger", "Error deleting note: " + res.error + ". Try again later.");
+                }
+            });
+        }
+    }
+
     sendLogout() {
         this.user = null;
         this.isLogged = false;

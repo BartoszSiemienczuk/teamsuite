@@ -21,7 +21,7 @@ var taskTodoSchema = new mongoose.Schema({
 var todoSchema = new mongoose.Schema({
     name: {type: String},
     team: {type: mongoose.Schema.Types.ObjectId, ref: 'Team'},
-    tasks: [{type: taskTodoSchema}]
+    tasks: [taskTodoSchema]
 });
 
 var todo = mongoose.model<ITodoModel>("Todo", todoSchema);
