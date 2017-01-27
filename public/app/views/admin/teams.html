@@ -1,5 +1,3 @@
-
-
 <div class="card">
     <div class="header bg-blue">
         <h2>
@@ -33,8 +31,7 @@
                 <th>{{team.name}}</th>
                 <th>{{team.users.length}}</th>
                 <th>
-                    <a class="btn bg-light-blue btn-xs waves-effect" (click)="editTeam(team)">Edytuj / Członkowie</a>
-                    <a class="btn bg-orange btn-xs waves-effect" (click)="deleteTeam(team)">Usuń</a>
+                    <a class="btn bg-orange btn-xs waves-effect" (click)="deleteTeam(team)">Delete</a>
                 </th>
             </tr>
             </tbody>
@@ -51,7 +48,8 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <a class="btn btn-primary waves-effect" (click)="addTeam(newTeam.name)"><i class="material-icons">add_circle</i> Add team</a>
+                <a class="btn btn-primary waves-effect" (click)="addTeam(newTeam.name)"><i class="material-icons">add_circle</i>
+                    Add team</a>
             </div>
         </div>
     </div>

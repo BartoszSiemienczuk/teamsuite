@@ -1,75 +1,91 @@
 <div class="row">
-  <div class="col-xs-12">
-    <div class="card">
-        <div class="header">
-            <h2>
-                Collaborate - Chat
-            </h2>
-            <ul class="header-dropdown m-r--5">
-                <li class="dropdown">
-                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <i class="material-icons">settings</i>
-                    </a>
-                    <ul class="dropdown-menu pull-right">
-                        <li><a href="javascript:void(0);" class=" waves-effect waves-block">Ukryj się</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <div class="body chat-box">
-          <div class="row">
-            <div class="col-xs-12 col-md-4 col-lg-3 members-list">
-              
-              <span><Strong>Chatting with team : </Strong>{{activeTeam.name}}</span>
-              <h5>
-                Team members
-              </h5>
-              <ul class="list-group">
-<!--                 <li class="list-group-item">Anna P. <span class="badge bg-green"><i class=" material-icons">person</i></span></li>
-                <li class="list-group-item">Edward L.<span class="badge bg-orange"><i class=" material-icons">person_outline</i></span></li> -->
-                <li *ngFor="let user of userList" class="list-group-item">{{user}} <span class="badge bg-green"><i class=" material-icons">person</i></span></li>
-              </ul>
-              <h5>
-                Show server messages
-              </h5>
-              <div class="switch">
-                  <label>NO<input checked="" type="checkbox" [(ngModel)]="showServerMessages"><span class="lever"></span>YES</label>
-              </div>
-            </div>
-            <div class="col-xs-12 col-md-8 col-lg-9">
-              <div class="chat-container">
-                <ul class="message-list">
-                  <li class="message" *ngFor="let msg of messages" [class.hidden]="msg.user._id==0 && !showServerMessages">
-                    <img class="message-avatar" src="https://smileculture.com/wp-content/uploads/2015/11/avatar.png" alt="username"/>
-                    <div class="message-body">
-                      <p class="message-summary">
-                        <span class="message-author font-bold">{{msg.user.name}}</span> <span class="message-time">{{msg.created | date}}</span>
-                      </p>
-                      <p class="message-text">
-                        {{msg.text}}
-                      </p>
-                    </div>
-                  </li>
+    <div class="col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    Collaborate - Chat
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">settings</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="javascript:void(0);" class=" waves-effect waves-block">Ukryj się</a></li>
+                        </ul>
+                    </li>
                 </ul>
-                
-                
-                <div class="message-input-container">
-                  <div class="input-group">
-                      <span class="input-group-addon">
-                          <a><i class="material-icons">attachment</i></a>
-                      </span>
-                      <div class="form-line">
-                          <input class="form-control" placeholder="Enter your message..." type="text" [(ngModel)]="messageText">
-                      </div>
-                      <span class="input-group-addon">
-                          <a (click)="sendMessage()" (keyup.enter)="sendMessage()"><i class="material-icons">send</i></a>
-                      </span>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
+            <div class="body chat-box">
+                <div class="row">
+                    <div class="col-xs-12 col-md-4 col-lg-3 members-list">
+
+                        <span><Strong>Chatting with team : </Strong>{{activeTeam.name}}</span>
+                        <h5>
+                            Team members
+                        </h5>
+                        <ul class="list-group">
+                            <!--                 <li class="list-group-item">Anna P. <span class="badge bg-green"><i class=" material-icons">person</i></span></li>
+                                            <li class="list-group-item">Edward L.<span class="badge bg-orange"><i class=" material-icons">person_outline</i></span></li> -->
+                            <li *ngFor="let user of userList" class="list-group-item">{{user}} <span
+                                    class="badge bg-green"><i class=" material-icons">person</i></span></li>
+                        </ul>
+                        <h5>
+                            Show server messages
+                        </h5>
+                        <div class="switch">
+                            <label>NO<input checked="" type="checkbox" [(ngModel)]="showServerMessages"><span
+                                    class="lever"></span>YES</label>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-8 col-lg-9">
+                        <div class="chat-container">
+                            <ul class="message-list">
+                                <li class="message" *ngFor="let msg of messages"
+                                    [class.hidden]="msg.user._id==0 && !showServerMessages">
+                                    <img class="message-avatar"
+                                         src="https://smileculture.com/wp-content/uploads/2015/11/avatar.png"
+                                         alt="username"/>
+                                    <div class="message-body">
+                                        <p class="message-summary">
+                                            <span class="message-author font-bold">{{msg.user.name}}</span> <span
+                                                class="message-time">{{msg.created | date}}</span>
+                                        </p>
+                                        <p class="message-text">
+                                            {{msg.text}}
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+
+
+                            <div class="message-input-container">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <a (click)="switchUploader()"><i class="material-icons">attachment</i></a>
+                                    </span>
+                                    <div class="form-line">
+                                        <input class="form-control" placeholder="Enter your message..." type="text"
+                                               [(ngModel)]="messageText">
+                                    </div>
+                                    <span class="input-group-addon">
+                                        <a (click)="sendMessage()" (keyup.enter)="sendMessage()">
+                                            <i class="material-icons">send</i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="file-container" *ngIf="uploaderEnabled">
+                            <h2>Choose a file to be attached...</h2>
+                            <input type="file" id="chat-file-upload"/> <a class="btn btn-primary"
+                                                                          (click)="uploadFile()"><i
+                                class="material-icons">send</i> Send file</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-  </div>
 </div>
