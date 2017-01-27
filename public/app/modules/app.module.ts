@@ -16,6 +16,7 @@ import {UserAdminComponent} from '../components/useradmin.component';
 import {TeamAdminComponent} from '../components/teamadmin.component';
 import {NotesComponent} from '../components/notes.component';
 import {TodoComponent} from '../components/todo.component';
+import {DrawingComponent} from "../components/drawing.component";
 
 import {UserService}    from '../services/user.service';
 import {TeamService}    from '../services/team.service';
@@ -26,6 +27,7 @@ import {AuthGuard} from '../services/auth-guard.service';
 import {AdminGuard} from '../services/admin-guard.service';
 import {ChatService} from '../services/chat.service';
 import {TodoService} from "../services/todo.service";
+import {DrawingService} from "../services/drawing.service";
 
 import {LoggedUserResolve} from '../services/resolvers/logged-user.resolve';
 import {AllUsersResolve} from '../services/resolvers/all-users.resolve';
@@ -56,7 +58,8 @@ import 'rxjs/add/operator/toPromise';
         UserAdminComponent,
         TeamAdminComponent,
         NotesComponent,
-        TodoComponent
+        TodoComponent,
+        DrawingComponent
     ],
     providers: [
         UserService,
@@ -71,7 +74,8 @@ import 'rxjs/add/operator/toPromise';
         appRoutingProviders,
         ChatService,
         TeamService,
-        TodoService
+        TodoService,
+        DrawingService
     ],
     bootstrap: [
         AppComponent

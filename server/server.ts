@@ -8,6 +8,7 @@ import {teamRoutes} from './routes/teams';
 import {ChatSocket} from './sockets/chat.socket';
 import {Config} from './config';
 import path = require('path');
+import {DrawingSocket} from "./sockets/drawing.socket";
 
 export class Server {
     private app_: express.Express;
@@ -16,6 +17,7 @@ export class Server {
     private server_: any;
     private io_: any;
     private chatSocket: ChatSocket;
+    private drawingSocket: DrawingSocket;
 
     db_url_: string = Config.db_url;
 
@@ -64,6 +66,7 @@ export class Server {
         if (this.server_) {
             this.io_ = socketIo(this.server_);
             this.chatSocket = new ChatSocket(this.io_);
+            this.drawingSocket = new DrawingSocket(this.io_);
         } else {
             console.error("You need to start express server before starting sockets.");
         }

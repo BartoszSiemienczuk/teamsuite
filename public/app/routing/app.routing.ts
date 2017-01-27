@@ -13,10 +13,12 @@ import {AllTeamsResolve} from "../services/resolvers/all-teams.resolve";
 import {TeamAdminComponent} from "../components/teamadmin.component";
 import {NotesComponent} from "../components/notes.component";
 import {TodoComponent} from "../components/todo.component";
+import {DrawingComponent} from "../components/drawing.component";
 
 
 const appRoutes: Routes = [
     {path: 'chat', component: ChatComponent, canActivate: [AuthGuard]},
+    {path: 'drawing', component: DrawingComponent, canActivate: [AuthGuard]},
     {path: 'notes', component: NotesComponent, canActivate: [AuthGuard]},
     {path: 'todos', component: TodoComponent, canActivate: [AuthGuard]},
     {path: 'profile', component: UserprofileComponent, canActivate: [AuthGuard], resolve: {user: LoggedUserResolve}},
