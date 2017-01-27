@@ -1,0 +1,42 @@
+<div class="block-header">
+    <h2>Your notes</h2>
+</div>
+<div class="row clearfix">
+    <div class="col-xs-12">
+        <div class="card">
+            <div class="body">
+                <div class="row clearfix">
+                    <div class="col-xs-12">
+                        <h2><strong>Add a new note</strong></h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input class="form-control" type="text" [(ngModel)]="noteText" name="new_note"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <a class="btn btn-primary waves-effect" (click)="addNote()"><i class="material-icons">add_circle</i> Add note</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" *ngFor="let note of notes; let i = index">
+        <div class="card note">
+            <div class="header">
+                <h2>
+                    {{note}}
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a (click)="deleteNote(i)" class="dropdown-toggle" >
+                            <i class="material-icons">delete</i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
