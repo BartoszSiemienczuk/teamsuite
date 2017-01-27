@@ -1,0 +1,66 @@
+<div class="block-header">
+    <h2>Team to-do lists</h2>
+</div>
+<div class="row clearfix">
+    <div class="col-xs-12">
+        <div class="card">
+            <div class="body">
+                <div class="row clearfix">
+                    <div class="col-xs-12">
+                        <h2><strong>Add a new list</strong></h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="form-line">
+                                <input class="form-control" type="text" [(ngModel)]="listname" name="new_todo"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <a class="btn btn-primary waves-effect" (click)="addTodo()"><i
+                                class="material-icons">add_circle</i> Add list</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" *ngFor="let todo of todos; let i = index">
+        <div class="card note todo">
+            <div class="header">
+                <h2>
+                    {{todo.name}}
+                </h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a (click)="deleteTodo(todo._id)" class="dropdown-toggle">
+                            <i class="material-icons">delete</i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <ul class="list-group">
+                            <li *ngFor="let task of todo.tasks" class="list-group-item">
+                                {{task.text}}
+                                <a (click)="switchTask(todo._id, task._id)" style="float:right">
+                                    <i class="material-icons" *ngIf="task.done==false">check_box_outline_blank</i>
+                                    <i class="material-icons" *ngIf="task.done">check_box</i>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="row">
+                            <div class="col-xs-10">
+                                <input type="text" class="form-control" [(ngModel)]="todo.newtask" name="todo-newtask"/>
+                            </div>
+                            <div class="col-xs-2">
+                                <a class="btn btn-sm btn-primary" (click)="addTask(i)"><i class="material-icons">add</i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

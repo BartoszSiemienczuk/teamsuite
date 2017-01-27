@@ -22,23 +22,26 @@ router.get('/', (req: express.Request, res: express.Response) => {
     Team.find((err, Teams) => {
         if (err) {
             res.json({error: err, info: "Error loading teams."});
+            return;
         } else {
             res.json(Teams);
+            return;
         }
     });
 });
 
 router.post('/', (req: express.Request, res: express.Response) => {
-    if(res.locals.role!="ADMIN" || res.locals.loggedIn == false){
+    if (res.locals.role != "ADMIN" || res.locals.loggedIn == false) {
         res.status(401).json({success: false, error: "Unauthorized."});
         return;
     }
     let name = req.body.name;
 
-    let team = new Team({name:name});
+    let team = new Team({name: name});
     team.save();
 
     res.status(200).json({success: 'true', name: team.name});
+    return;
 });
 
 router.get('/users/:team_id', (req: express.Request, res: express.Response) => {
@@ -47,12 +50,13 @@ router.get('/users/:team_id', (req: express.Request, res: express.Response) => {
         return;
     }
     var teamid = req.params.team_id;
-    Team.findOne({_id: teamid}).populate("users", "_id login name").exec((err, team)=>{
-        if(err){
+    Team.findOne({_id: teamid}).populate("users", "_id login name").exec((err, team) => {
+        if (err) {
             res.status(200).json({success: false, error: "DB error."});
             return;
         }
         res.status(200).json(team.users);
+        return;
     });
 });
 
@@ -62,7 +66,7 @@ router.get('/todos/team/:team_id', (req: express.Request, res: express.Response)
         return;
     }
     Todo.find({team: req.params.team_id}, (err, todos) => {
-        if(err){
+        if (err) {
             res.status(200).json({success: false, error: "DB error."});
             return;
         }
@@ -83,7 +87,8 @@ router.post('/todos/team/:team_id', (req: express.Request, res: express.Response
     });
 
     todo.save();
-    res.status(200).json({success:true, todo:todo.name});
+    res.status(200).json({success: true, todo: todo.name});
+    return;
 });
 
 router.patch('/todos/:todo_id/task/:task_id', (req: express.Request, res: express.Response) => {
@@ -92,7 +97,7 @@ router.patch('/todos/:todo_id/task/:task_id', (req: express.Request, res: expres
         return;
     }
     Todo.findOne({_id: req.params.todo_id}, (err, todo) => {
-        if(err){
+        if (err) {
             res.status(200).json({success: false, error: "DB error."});
             return;
         }
@@ -113,13 +118,13 @@ router.post('/todos/:todo_id/task', (req: express.Request, res: express.Response
         return;
     }
     Todo.findOne({_id: req.params.todo_id}, (err, todo) => {
-        if(err){
+        if (err) {
             res.status(200).json({success: false, error: "DB error."});
             return;
         }
         todo.tasks.push({text: req.body.text, done: false});
         todo.save();
-        res.status(200).json({success:true, todo:todo.name, task: req.body.text});
+        res.status(200).json({success: true, todo: todo.name, task: req.body.text});
         return;
     });
 });
@@ -130,11 +135,11 @@ router.post('/todos/:todo_id/delete', (req: express.Request, res: express.Respon
         return;
     }
     Todo.remove({_id: req.params.todo_id}, (err, removed) => {
-        if(err){
+        if (err) {
             res.status(200).json({success: false, error: "DB error."});
             return;
         }
-        res.status(200).json({success:true});
+        res.status(200).json({success: true});
         return;
     });
 });
@@ -211,12 +216,12 @@ router.post('/delete', (req: express.Request, res: express.Response) => {
         return;
     }
     var team_id = req.body.team_id;
-    Team.findOne({_id:team_id}, (err, team)=>{
-        if(err || team==null){
+    Team.findOne({_id: team_id}, (err, team) => {
+        if (err || team == null) {
             res.status(200).json({success: false, error: "DB error."});
             return;
         }
-        if(team.users.length>0){
+        if (team.users.length > 0) {
             res.status(200).json({success: false, error: "Can't delete non-empty team."});
             return;
         }
