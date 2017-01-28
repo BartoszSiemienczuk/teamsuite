@@ -1,3 +1,67 @@
-<h2>
-  HOMEPAGE
-</h2>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="card">
+      <div class="header">
+        WELCOME TO TEAMSUITE
+      </div>
+
+      <div class="body">
+        <div *ngIf="user==null">
+          Please login to use application. <a routerLink="/login" class="btn btx-lg btn-primary"><i class="material-icons">unlock</i> Login</a>
+        </div>
+
+        <div *ngIf="user">
+          <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="info-box-3 bg-pink hover-zoom-effect">
+                <div class="icon">
+                  <i class="material-icons">email</i>
+                </div>
+                <div class="content">
+                  <div class="text">TEAM'S CHAT</div>
+                  <div class="number"><a routerLink="/chat">GO <i class="material-icons">chevron_right</i></a></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="info-box-3 bg-teal hover-zoom-effect">
+                <div class="icon">
+                  <i class="material-icons">mode_edit</i>
+                </div>
+                <div class="content">
+                  <div class="text">DRAWING BOARD</div>
+                  <div class="number"><a routerLink="/drawing">GO <i class="material-icons">chevron_right</i></a></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="info-box-3 bg-purple hover-zoom-effect">
+                <div class="icon">
+                  <i class="material-icons">note</i>
+                </div>
+                <div class="content">
+                  <div class="text">YOUR NOTES</div>
+                  <div class="number"><a routerLink="/notes">GO <i class="material-icons">chevron_right</i></a></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="info-box-3 bg-green hover-zoom-effect">
+                <div class="icon">
+                  <i class="material-icons">check_box</i>
+                </div>
+                <div class="content">
+                  <div class="text">TEAM'S TO-DO LIST</div>
+                  <div class="number"><a routerLink="/todos">GO <i class="material-icons">chevron_right</i></a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

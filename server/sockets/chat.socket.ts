@@ -15,13 +15,10 @@ export class ChatSocket {
 
     private listen(): void {
         this.chatConnection.on("message", (data: any) => {
-            console.log("Message!");
-
             let msg = new ChatMessage({text: data.text, user: data.user, room: data.room});
             msg.save();
             msg.populate({path: 'user', select: 'login name'}, (err, data: any) => {
                 //broadcast message with populated user data
-                console.log("Message from " + data.user.name + " to room " + data.room);
                 this.chatConnection.broadcast.to(data.room).emit("message", data);
                 this.chatConnection.emit("message", data);
             });
@@ -29,9 +26,7 @@ export class ChatSocket {
         });
 
         this.chatConnection.on("login", (user: any) => {
-            console.log("User " + user.name + " joined room " + user.room);
             this.chatConnection.join(user.room);
-            console.log("Current room " + user.room + " connections : " + this.getRoomCount(user.room));
             this.connectedUsers[user._id] = user;
             this.chatConnection.in(user.room).emit("userlist", this.getSimpleUserList());
             this.chatConnection.emit("userlist", this.getSimpleUserList());
@@ -42,16 +37,12 @@ export class ChatSocket {
 
         this.chatConnection.on("logout", (user: any) => {
             var room = this.connectedUsers[user._id].room;
-            console.log("User " + user.name + " disconnecting from room " + room + ".");
             this.sendServerMessage("User " + user.name + " has disconnected.", room);
             this.chatConnection.broadcast.to(room).emit("userlist", this.getSimpleUserList());
             this.chatConnection.leave(room);
-            console.log("Current room " + room + " connections : " + this.getRoomCount(room));
         });
 
-        this.chatConnection.on("disconnect", () => {
-            //leave room and such
-        });
+        this.chatConnection.on("disconnect", () => { });
     }
 
     private sendServerMessage(text: string, room: string): void {

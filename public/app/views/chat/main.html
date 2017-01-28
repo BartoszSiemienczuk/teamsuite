@@ -66,11 +66,11 @@
                                         <a (click)="switchUploader()"><i class="material-icons">attachment</i></a>
                                     </span>
                                     <div class="form-line">
-                                        <input class="form-control" placeholder="Enter your message..." type="text"
+                                        <input (keyup.enter)="sendMessage()" class="form-control" placeholder="Enter your message..." type="text"
                                                [(ngModel)]="messageText">
                                     </div>
                                     <span class="input-group-addon">
-                                        <a (click)="sendMessage()" (keyup.enter)="sendMessage()">
+                                        <a (click)="sendMessage()">
                                             <i class="material-icons">send</i>
                                         </a>
                                     </span>
@@ -78,10 +78,17 @@
                             </div>
                         </div>
                         <div class="file-container" *ngIf="uploaderEnabled">
-                            <h2>Choose a file to be attached...</h2>
-                            <input type="file" id="chat-file-upload"/> <a class="btn btn-primary"
-                                                                          (click)="uploadFile()"><i
-                                class="material-icons">send</i> Send file</a>
+                            <div class="container">
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <h2>Choose a file to be attached...</h2>
+                                        <input type="file" id="chat-file-upload"/> <a class="btn btn-primary"
+                                                                                      (click)="uploadFile()"><i
+                                            class="material-icons">send</i> Send file</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

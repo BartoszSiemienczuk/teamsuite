@@ -20,7 +20,7 @@ export class ChatService {
         this.socket.emit('message', messageObject);
     }
 
-    getMessages() {
+    getChatObservable() {
         let observe = new Observable(observer => {
             this.socket = ioClient.connect("/sockets/chat");
             var usr: any = this.userService.userData;

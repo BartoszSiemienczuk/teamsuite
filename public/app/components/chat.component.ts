@@ -27,7 +27,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        this.chat = this.chatService.getMessages().subscribe((message: any) => {
+        this.chat = this.chatService.getChatObservable().subscribe((message: any) => {
             if (message.messageType == "message") {
                 this.messages.push(message.messageObject);
             }

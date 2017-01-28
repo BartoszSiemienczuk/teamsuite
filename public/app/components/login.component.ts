@@ -15,9 +15,7 @@ export class LoginComponent {
   }
   
   submitLogin(login, password){
-    this.userService.sendLogin(login, password).subscribe( (result) => {
-      
-    });
+    this.userService.sendLogin(login, password).subscribe( (result) => { });
   }
   
   submitLogout(){
