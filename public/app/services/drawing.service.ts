@@ -14,10 +14,15 @@ export class DrawingService {
     constructor(private userService: UserService) { }
 
     getObservable(){
+        this.userService.refreshUserData();
         return new Observable(observer => {
             console.log("Connecting to drawing socket");
             this.socket = ioClient.connect("/sockets/drawing");
             var usr: any = this.userService.userData;
+            if(this.userService.activeTeam==null){
+                alert("You need to be assigned to a team to use drawing service.");
+                return null;
+            }
             usr.room = "room_" + this.userService.activeTeam._id;
             console.log("Emitting login with usr=", usr);
             this.socket.emit("login", usr);

@@ -31,6 +31,9 @@ export class DrawingComponent implements OnInit, OnDestroy, AfterViewInit {
                     res.messageObject.thickness,
                 );
             }
+            if (res.messageType == "userlist") {
+                this.userList = res.messageObject;
+            }
             if(res.messageType=="clear"){
                 this.canvasCtx.clearRect(0, 0, 2000, 2000);
             }

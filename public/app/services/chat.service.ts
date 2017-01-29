@@ -21,9 +21,14 @@ export class ChatService {
     }
 
     getChatObservable() {
+        this.userService.refreshUserData();
         let observe = new Observable(observer => {
             this.socket = ioClient.connect("/sockets/chat");
             var usr: any = this.userService.userData;
+            if(this.userService.activeTeam==null){
+                alert("You need to be assigned to a team to use chat service.");
+                return null;
+            }
             usr.room = "room_" + this.userService.activeTeam._id;
             this.socket.emit("login", usr);
             this.room = usr.room;

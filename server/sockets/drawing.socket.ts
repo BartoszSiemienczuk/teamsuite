@@ -1,6 +1,7 @@
 import {User} from '../model';
 export class DrawingSocket {
-    connectedUsers = [];
+    connectedUsers: any[][] = [];
+    allConnectedUsers: any[] = [];
     drawingConnection: any;
 
     constructor(private socketIO: any) {
@@ -13,31 +14,32 @@ export class DrawingSocket {
 
     private listen(): void {
         this.drawingConnection.on("drawing", (data: any) => {
-            console.log("[DRAWING] Room "+data.room);
             this.drawingConnection.to(data.room).emit("draw", data);
         });
 
 
         this.drawingConnection.on("clear", (data: any) => {
-            console.log("[DRAWING] CLEAR for room "+data.room);
             this.drawingConnection.to(data.room).emit("clear", data);
         });
 
         this.drawingConnection.on("login", (user: any) => {
             this.drawingConnection.join(user.room);
-            this.connectedUsers[user._id] = user;
-            this.drawingConnection.to(user.room).emit("userlist", this.getSimpleUserList());
-            this.drawingConnection.emit("userlist", this.getSimpleUserList());
-            console.log("User " + user.name + " joined room " + user.room);
-            console.log(JSON.stringify(this.socketIO.rooms));
+            this.allConnectedUsers[user._id] = user;
+            if(this.connectedUsers[user.room]==undefined){
+                this.connectedUsers[user.room] = new Array();
+            }
+            this.connectedUsers[user.room][user._id] = user;
+            this.drawingConnection.to(user.room).emit("userlist", this.getSimpleUserList(user.room));
+            this.drawingConnection.emit("userlist", this.getSimpleUserList(user.room));
 
         });
 
         this.drawingConnection.on("logout", (user: any) => {
-            var room = this.connectedUsers[user._id].room;
-            this.drawingConnection.to(room).emit("userlist", this.getSimpleUserList());
+            var room = this.allConnectedUsers[user._id].room;
+            delete this.allConnectedUsers[user._id];
+            delete this.connectedUsers[room][user._id];
+            this.drawingConnection.broadcast.to(room).emit("userlist", this.getSimpleUserList(room));
             this.drawingConnection.leave(room);
-            console.log("User " + user.name + " disconnecting from room " + room + ".");
         });
 
         this.drawingConnection.on("disconnect", () => {
@@ -45,8 +47,12 @@ export class DrawingSocket {
         });
     }
 
-    private getSimpleUserList() {
-        let list = this.connectedUsers.map((user) => user.login);
+    private getSimpleUserList(room: string) {
+        let list = [];
+        for(let key in this.connectedUsers[room]){
+            list.push(this.connectedUsers[room][key].name);
+        }
+        console.log("Userlist send = ", list);
         return list;
     }
 }

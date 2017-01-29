@@ -1,6 +1,7 @@
 import {User, ChatMessage} from '../model';
 export class ChatSocket {
-    connectedUsers = [];
+    connectedUsers: any[][] = [];
+    allConnectedUsers: any[] = [];
     chatConnection: any;
     uploader: any;
 
@@ -22,23 +23,27 @@ export class ChatSocket {
                 this.chatConnection.broadcast.to(data.room).emit("message", data);
                 this.chatConnection.emit("message", data);
             });
-            this.sendData();
         });
 
         this.chatConnection.on("login", (user: any) => {
             this.chatConnection.join(user.room);
-            this.connectedUsers[user._id] = user;
-            this.chatConnection.in(user.room).emit("userlist", this.getSimpleUserList());
-            this.chatConnection.emit("userlist", this.getSimpleUserList());
-            this.sendData();
+            this.allConnectedUsers[user._id] = user;
+            if(this.connectedUsers[user.room]==undefined){
+                this.connectedUsers[user.room] = new Array();
+            }
+            this.connectedUsers[user.room][user._id] = user;
+            this.chatConnection.in(user.room).emit("userlist", this.getSimpleUserList(user.room));
+            this.chatConnection.emit("userlist", this.getSimpleUserList(user.room));
             this.sendServerMessage("User " + user.name + " joined this room.", user.room);
 
         });
 
         this.chatConnection.on("logout", (user: any) => {
-            var room = this.connectedUsers[user._id].room;
+            var room = this.allConnectedUsers[user._id].room;
+            delete this.allConnectedUsers[user._id];
+            delete this.connectedUsers[room][user._id];
             this.sendServerMessage("User " + user.name + " has disconnected.", room);
-            this.chatConnection.broadcast.to(room).emit("userlist", this.getSimpleUserList());
+            this.chatConnection.broadcast.to(room).emit("userlist", this.getSimpleUserList(room));
             this.chatConnection.leave(room);
         });
 
@@ -47,11 +52,10 @@ export class ChatSocket {
 
     private sendServerMessage(text: string, room: string): void {
         if (this.chatConnection) {
-            console.log("Message from SERVER to room " + room);
             let message = {
                 text: text,
                 room: room,
-                user: {_id: 0, login: 'server', name: 'Serwer'},
+                user: {_id: 0, login: 'server', name: 'Server'},
                 created: new Date()
             };
             this.chatConnection.broadcast.to(room).emit("message", message);
@@ -72,8 +76,12 @@ export class ChatSocket {
 
     }
 
-    private getSimpleUserList() {
-        let list = this.connectedUsers.map((user) => user.login);
+    private getSimpleUserList(room: string) {
+        let list = [];
+        for(let key in this.connectedUsers[room]){
+            list.push(this.connectedUsers[room][key].name);
+        }
+        console.log("Userlist send = ", list);
         return list;
     }
 }
