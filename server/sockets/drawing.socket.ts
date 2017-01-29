@@ -22,6 +22,10 @@ export class DrawingSocket {
         });
 
         socket.on("login", (user: any) => {
+            if(user==null){
+                socket.disconnect();
+                return;
+            }
             socket.join(user.room);
             this.allConnectedUsers[user._id] = user;
             if(this.connectedUsers[user.room]==undefined){
@@ -51,7 +55,6 @@ export class DrawingSocket {
         for(let key in this.connectedUsers[room]){
             list.push(this.connectedUsers[room][key].name);
         }
-        console.log("Userlist send = ", list);
         return list;
     }
 }
